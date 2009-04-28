@@ -17,23 +17,3 @@ body { font-family: verdana, arial, sans-serif; font-size: 0.8em; background-col
 #cssdropdown a { color: white; } #cssdropdown ul li a:hover { text-decoration: none; }
 #cssdropdown li.headlink { background-color: white; background-image: url(bg.gif); }
 #cssdropdown li.headlink ul { background-image: url(bg.gif); background-position: bottom; padding-bottom: 10px; }
-
-.dayButton {
-  width: 40px;
-  height: 30px;
-  background-color: #000;
-  border: 1px solid #666;
-  font-weight: bold;
-}
-
-.pressed {
-    background-color: red;
-}
-
-.content {
-    background: white;
-}
-
-.weeklydate {
-    margin: 15px 0 0 0;
-}

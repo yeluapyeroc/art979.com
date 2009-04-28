@@ -1,8 +1,12 @@
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 from django.http import HttpResponse
 
+from art979.Event.models import Event
 from art979.Event.forms import CreateEventForm
+from art979.Category.models import EventType
+
+import datetime, re
 
 def home(request):
     return render_to_response('home.html', {}, context_instance=RequestContext(request))
@@ -88,3 +92,12 @@ def model_get(request, model_type, art_type=None, art_id=None, model_id=None):
 def test(request):
     form = CreateEventForm()
     return render_to_response('test.html', {'form': form}, context_instance=RequestContext(request))
+
+def verify_email(request):
+    return render_to_response('home.html', {}, context_instance=RequestContext(request))
+
+def activate(request):
+    return render_to_response('home.html', {}, context_instance=RequestContext(request))
+
+def thanks(request):
+    return render_to_response('home.html', {}, context_instance=RequestContext(request))

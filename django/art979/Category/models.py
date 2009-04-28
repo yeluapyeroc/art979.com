@@ -3,7 +3,7 @@ from django.db import models
 class CategoryBase(models.Model):
     name = models.CharField(max_length=100)
     plural = models.CharField(max_length=100, blank=True, help_text='Should be capitalized.')
-    description = models.TextField()
+    description = models.TextField(blank=True)
     pub_date = models.DateTimeField('date created', auto_now_add=True, editable=False)
     last_modified = models.DateTimeField('date last modified', auto_now=True, editable=False)
 

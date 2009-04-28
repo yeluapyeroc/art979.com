@@ -13,7 +13,10 @@ feeds = {
 
 urlpatterns = patterns('',
 ## Static Media Serving ##
-	(r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': '/home/yeluapyeroc/programming/web/art979.com/httpdocs/media'}),
+	(r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': '/media/Storage/programming/web/art979.com/httpdocs/media'}),
+
+## Extras ##
+    (r'^feeds/(?P<url>.*)/$', 'django.contrib.syndication.views.feed', {'feed_dict': feeds}),
 )
 
 urlpatterns += patterns('art979.Page.views',
@@ -26,7 +29,7 @@ urlpatterns += patterns('art979.Page.views',
 ## Category Urls ##
     (r'^music/genres/(?P<genre_id>.*)/$', 'music_genre'),
     (r'^film/genres/(?P<genre_id>.*)/$', 'film_genre'),
-    (r'^literary/genres/(?P<genre_id>.*)/$', 'literary_genre'),
+    (r'^literary/genres/(?P<genre_id>.*)/$', 'literature_genre'),
     (r'^(?P<category>visual|music|culinary|literary|artisan|design|performing)/$', 'category'),
     (r'^(?P<category>visual|music|culinary|literary|artisan|design|performing)/(?P<artist_category>.*)/$', 'artist_category'),
 
@@ -66,9 +69,6 @@ urlpatterns += patterns('art979.Page.views',
     (r'^account/options/$', 'account_options'),
     (r'^account/$', 'account'),
     (r'^deleteaccount/$', 'account_delete'),
-
-## Extras ##
-    (r'^feeds/(?P<url>.*)/$', 'django.contrib.syndication.views.feed', {'feed_dict': feeds}),
 
 ## Home/Admin ##
     (r'^$', 'home'),

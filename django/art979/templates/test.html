@@ -1,9 +1,19 @@
 {% extends "base.html" %}
 
+{% block extrahead %}
+{% endblock %}
+
 {% block body %}
 
+{% if form %}
+<form>
+{{form.media}}
 {% for field in form %}
-{{field}}
+<div class="form_field"><label for="{{field.name}}">{{field.label}}:</label> {{field}}</div>
+{{field.errors}}
 {% endfor %}
+<input type="submit" value="Save" />
+</form>
+{% endif %}
 
 {% endblock %}
