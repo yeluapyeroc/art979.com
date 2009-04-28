@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}Art Coordinator Registration{% endblock %}
+{% block body %}
+
+<div class="span-24">
+  
+  <div class="span-24 register">
+  <p>Thank you for your interest in adding your business and art events to art979.com.  Please complete the form as thoroughly as you can.  This will make your listing look more professional and credible.  We ask that you only add events and venues if you have the permission of the event coordinator or venue owner.  We reserve the right to remove any venue/event profiles that do not accurately represent the venue/event.  When you submit the form, you will be required to confirm your email address and the application will then be sent to a website administrator for approval.  You will receive an email notification once your profile is approved and activated.  At that time, you can log in and add events/venues at your convenience. One of the goals for this site is to be a complete catalog of of all the artists, venues, and events in the Brazos Valley area.  There is no charge for having a profile on the site.  Please invite any event coordinator or venue owner friends you have to come join us.</p>
+  <p>If you are looking to add events/venues and also have an Artist profile that is made public, please <a href="/register/">register as an Artist</a>.</p>
+  <p>You can also <a href="/register/artlover/">register to receive weekly updates</a> of the events listed on this site.
+  <form class="register_form" enctype="multipart/form-data" action="/register/artcoordinator/" method="POST">
+  {% for field in form %}
+    <div class="form_field"><label for="{{field.name}}">{{field.label}}:</label> {{field}}</div>
+    {{field.errors}}
+  {% endfor %}
+  <input type="submit" value="Submit" />
+  </form>
+  </div>
+
+</div>
+{% endblock %}

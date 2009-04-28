@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}Account Confirmation{% endblock %}
+{% block body %}
+
+<div class="span-24">
+  
+  <div class="span-18 append-1 confirm">
+  {% if type %}
+    {% ifequal acc "artlover" %}
+    <p>Hello {{type.first_name}}, thank you for registering for regular updates from art979.com. If you ever wish to cancel your subscription just click the cancel link in your next email from us.</p>
+    {% endifequal %}
+    {% ifequal acc "artcoordinator" %}
+    <p>Hello {{applicant.username}}, thank you for registering as an Art Coordinator at Art979. We are now in the process of reviewing your information and we will contact you as soon as your account is made active.</p>
+    {% endifequal %}
+    {% ifequal acc "artist" %}
+    <p>Hello {{applicant.username}}, thank you for registering as an Artist at Art979. We are now in the process of reviewing your information and we will contact you as soon as your account is made active.</p>
+    {% endifequal %}
+  {% else %}
+    <p>The account has been enabled</p>
+  {% endif %}
+  </div>
+
+  <div class="span-5 last sidebar">
+    <br />
+    {% include "sidebar/events.html" %}
+    <hr />
+    {% include "sidebar/artists.html" %}
+    <hr />
+    {% include "sidebar/venues.html" %}
+  </div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block title %}
+  {{ category.name }}
+{% endblock %}
+
+{% block body %}
+
+<div class="span-24 category_header">
+  <h2>{{ category.name }} - News</h2>
+  <p>{{ category.description }}</p>
+  <div class="page_links_box">
+  <div class="page_links_boxHeader">
+    <div></div>
+  </div>
+  <p class="page_links"><a href="" class="page_button prev_button" rel="prev">prev</a><a href="" class="page_button next_button" rel="next">next</a>{%for page in paginator.page_range%}<a href="" class="page_button" rel="{{page}}">{{page}}</a> {%endfor%}</p>
+  </div>
+  <div class="page_links_boxFooter">
+    <div></div>
+  </div>
+</div>
+
+<div class="span-24">
+  <div class="span-18 category">
+
+    <div class="page_wrapper">
+    {% for page in pages %}
+      <div class="page-{{page.number}}">
+        {% for story in page.object_list %}
+        <div class="span-9 smallStory{%cycle '' ' last'%}">
+          <div class="smallStoryHeader">
+            <h4 class="bottom"><a href="/news/{{story.key}}/">{{story.title}}</a></h4>
+          </div>
+          <div class="smallStoryBody">
+            <a class="smallStoryImage" href="/news/{{story.key}}/"><img src="/media/{{story.image1}}" alt="{{story.title}}"/></a>
+            <p>{{story.body|truncatewords:70}} <a href="/news/{{story.key}}/">read more<img class="read_more" src="/media/img/read_more.gif" alt="Read More"/></a></p>
+          </div>
+        <div class="smallStoryFooter">
+          <div></div>
+        </div>
+        </div>
+        {% endfor %}
+      </div>
+    {% endfor %}
+    </div>
+
+  </div>
+
+  <div class="span-6 last sidebar">
+    {% include "sidebar/events.html" %}
+    <hr />
+    {% include "sidebar/artists.html" %}
+    <hr />
+    {% include "sidebar/venues.html" %}
+  </div>
+
+</div>
+{% endblock %}

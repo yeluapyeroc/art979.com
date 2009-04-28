@@ -1,0 +1,59 @@
+{% ifequal option "default" %}
+
+  {% if perms.Profiles.is_coordinator %}
+
+  <form class="profile_form" enctype="multipart/form-data" action="/account/options/changename/" method="POST">
+    {% for field in name_form %}
+    <div class="form_field"><label for="{{field.name}}">{{field.label}}:</label> {{field}}</div>
+    {{field.errors}}
+    {% endfor %}
+    <input type="submit" value="Change Name">
+  </form>
+
+  <form class="profile_form" enctype="multipart/form-data" action="/account/options/changeemail/" method="POST">
+    {% for field in email_form %}
+    <div class="form_field"><label for="{{field.name}}">{{field.label}}:</label> {{field}}</div>
+    {{field.errors}}
+    {% endfor %}
+    <input type="submit" value="Change Email Address">
+  </form>
+
+  <form class="profile_form" enctype="multipart/form-data" action="/account/options/changephonenumber/" method="POST">
+    {% for field in phone_number_form %}
+    <div class="form_field"><label for="{{field.name}}">{{field.label}}:</label> {{field}}</div>
+    {{field.errors}}
+    {% endfor %}
+    <input type="submit" value="Change Phone Number">
+  </form>
+
+  {% endif %}
+
+  <div class="options"><a href="/account/options/changepassword/">Change My Password</a></div>
+  <div class="options"><a href="/remove/account/confirm/">Delete My Account</a></div>
+
+{% endifequal %}
+
+{% ifequal option "remove_account" %}
+
+  <div class="confirm_message">
+    <p>Are you sure you want to delete your account? If you do this you will no longer be able to add content to art979.com and all of your data will be deleted.</p>
+  <p><a href="/account/options/">No, I Changed My Mind</a><a href="/remove/account/confirmed/">Yes I'm Sure</a></p>
+  </div>
+
+{% endifequal %}
+
+{% ifequal option "changepassword" %}
+
+  <form class="profile_form" enctype="multipart/form-data" action="/account/options/changepassword/" method="POST">
+    <div class="form_field">{{password_form.username}}</div>
+    <div class="form_field"><label for="oldpassword">{{password_form.oldpassword.label}}:</label> {{password_form.oldpassword}}</div>
+    {{password_form.oldpassword.errors}}
+    <div class="form_field"><label for="newpassword1">{{password_form.newpassword1.label}}:</label> {{password_form.newpassword1}}</div>
+    {{password_form.newpassword1.errors}}
+    <div class="form_field"><label for="newpassword2">{{password_form.newpassword2.label}}:</label> {{password_form.newpassword2}}</div>
+    {{password_form.newpassword2.errors}}
+    <input type="hidden" name="username" value="{{user.username}}">
+  <input type="submit" value="Change Password" />
+  </form>
+
+{% endifequal %}

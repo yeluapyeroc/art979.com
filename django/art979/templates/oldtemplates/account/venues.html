@@ -1,0 +1,71 @@
+  {% ifequal option "default" %}
+
+    <div class="add"><a href="/account/venue/add/"><img src="/media/img/add.gif" alt="Create New Venue"><b>Create New Venue</b></a></div>
+    <p class="page_links">Page: {%for page in paginator.page_range%}<a href="" class="page_button" rel="{{page}}">{{page}}</a> {%endfor%}</p>
+    <div class="page_wrapper">
+  {% for page in pages %}
+    <div class="page-{{page.number}}">
+    {% for venue in page.object_list %}
+      <div class="span-23 venue_piece">
+        <div class="edit"><a href="/account/venue/edit/{{venue.key}}/"><img src="/media/img/edit.gif" alt="Edit Venue"></a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/account/venue/delete/{{venue.key}}/"><img src="/media/img/delete.gif" alt="Delete Venue"></a></div>
+        <div class="profile_image_small_container">
+          <a href="/account/venue/profile/{{venue.key}}/"><img class="profile_image_small" src="/media/{{venue.image}}"></a>
+        </div>
+        <h1><a href="/account/venue/profile/{{venue.key}}/">{{venue.name|cutchars:40}}</a></h1>
+        <p>{{venue.about|truncatewords:50}}</p>
+      </div>
+    {% endfor %}
+    </div>
+  {% endfor %}
+    </div>
+
+  {% endifequal %}
+
+  {% ifequal option "edit" %}
+
+  <form class="profile_form" enctype="multipart/form-data" action="/account/venue/edit/{{venue.key}}/" method="POST">
+  {% for field in form %}
+    {% ifequal field.label "Image" %}<img src="/media/{{venue.image}}">{% endifequal %}
+    <div class="form_field"><label for="{{field.name}}">{{field.label}}:</label> {{field}}</div>
+    {{field.errors}}
+  {% endfor %}
+  <input type="submit" value="Save" />
+  </form>
+
+  {% endifequal %}
+
+  {% ifequal option "add" %}
+
+  <form class="profile_form" enctype="multipart/form-data" action="/account/venue/add/" method="POST">
+  {% for field in form %}
+    <div class="form_field"><label for="{{field.name}}">{{field.label}}:</label> {{field}}</div>
+    {{field.errors}}
+  {% endfor %}
+  <input type="submit" value="Add Venue" />
+  </form>
+
+  {% endifequal %}
+
+  {% ifequal option "profile" %}
+
+  <div class="profile_top_wrapper">
+    <div class="profile_image_container">
+		  <img class="profile_image" src="/media/{{venue.image}}">
+    </div>
+
+    <div class="edit"><a href="/account/venue/edit/{{venue.key}}/"><img src="/media/img/edit.gif" alt="Edit Venue"></a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/account/venue/delete/{{venue.key}}/"><img src="/media/img/delete.gif" alt="Delete Venue"></a></div>
+	  <h1>{{venue.name}}</h1>
+    {% if venue.location %}<b>Location: </b><p class="info" id="location">{{venue.location}}</p><a href="" id="map_button">View Map</a><br>{% endif %}
+    {% if venue.location %}<div class="gmap"><img src="http://maps.google.com/staticmap?center={{lat_long}}&zoom=15&markers={{lat_long}},red&size=640x400&key={{gkey}}&sensor=false" alt="Venue Location" /></div>{% endif %}
+    {% if venue.url %}<b>Webpage: </b><p class="info">{{venue.url|urlize}}</p><br>{% endif %}
+    {% if venue.email_contact %}<b>Email: </b><p class="info">{{venue.email_contact}}</p><br>{% endif %}
+    <br>
+  
+	  <div class="bio">
+      <p>
+		  {{venue.about}}
+      </p>
+	  </div>
+  </div>
+
+  {% endifequal %}

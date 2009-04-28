@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block body %}
+<div class="span-24 feature">
+  <img src="/media/img/queen.jpg" alt="Feature"/>
+  <p>Thanks for stopping by Art979. We are working on getting the site up and running. Until then, please feel free to come by our gallery location at 210 W. 26th Street in Downtown Bryan. If you need to speak to anyone about art, area events or renting out the gallery, email or call Kristy Petty: <a href="">kristy@art979.com</a> (979-595-8957). Send us an email and we will make sure to notify you when the site is complete.</p>
+</div>
+
+<div class="span-24 home_content">
+  <div class="left_side span-7">   
+    <div class="sidebar">
+      <div class="side_search side_content">
+        <h2>SEARCH</h2>
+        <hr>
+        <form action="/search/" method='POST'>
+        {% for field in form %}
+          {{field}}
+        {% endfor %}
+          <input id="submit" type="image" src="/media/img/xmag.png" value="Submit" alt="submit">
+        </form>
+      </div>
+    {% include "sidebar/events.html" %}
+    {% include "sidebar/artists.html" %}
+    {% include "sidebar/venues.html" %}
+    </div>
+  </div>
+
+  <div class="right_side span-17 last">
+    <div class="right_side_nav">
+      <ul>
+        <li class="selected"><a id="latest_news" href="">Latest News</a></li>
+        <li><a id="old_news"><a id="old_news" href="">Upcoming Events</a></li>
+      </ul>
+    </div>
+    <br>
+    <div class="page_wrapper">
+      {% for page in pages %}
+      <div class="page-{{page.number}}">
+        {% for story in page.object_list %}
+        <div class="smallStory">
+          <h4><a href="/news/{{story.key}}/">{{story.title}}</a></h4>
+          <div class="smallStoryBody">
+            <a class="smallStoryImage" href="/news/{{story.key}}/"><img src="/media/{{story.image1}}" alt="{{story.title}}"/></a>
+            <p>{{story.body|cutchars:800|safe}} <a href="/news/{{story.key}}/">read more<img class="read_more" src="/media/img/read_more.gif" alt="Read More"/></a></p>
+          </div>
+        </div>
+        {% endfor %}
+        {%cycle '' '' '<div class="ad"><a href="http://onthesideshow.com"><img src="/media/img/longerbanner.jpg" alt="On The Sideshow"></a></div>' '' '' '' %}
+      </div>
+    {% endfor %}
+    </div>
+  </div>
+
+</div>
+{% endblock %}

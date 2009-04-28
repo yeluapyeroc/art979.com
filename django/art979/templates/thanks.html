@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}Thanks!{% endblock %}
+{% block body %}
+<div class="span-24">
+  
+  <div class="span-18 append-1 thanks">
+  <br>
+  <br>
+
+  {% ifequal type "artist" %}
+  <p>Thank you so much for adding your name to the pool of artists in the Brazos Valley.  We are here to give a platform to all the creativity our area has to offer.  Your form will be reviewed for accuracy and will be posted as soon as possible.  Someone may be contacting you with additional questions.</p>
+  Thanks,
+  Kristy Petty<br/>
+  Owner, Art979
+  {% endifequal %}
+
+  {% ifequal type "artlover" %}
+  <p>Thank you for registering for updates on local art from Art979. An email confirmation message has been sent to the email address that you provided. Please take a moment to confirm your email address to complete the registration process.</p>
+  {% endifequal %}
+
+  {% ifequal type "artcoordinator" %}
+  <p>Thank you for registering as an Art Coordinator at Art979. An email confirmation message has been sent to the email address that you provided. Please take a moment to confirm your email address to continue the registration process.</p>
+  {% endifequal %}
+
+  </div>
+
+  <div class="span-5 last sidebar">
+    <br />
+    {% include "sidebar/events.html"%}
+    <hr />
+    {% include "sidebar/artists.html"%}
+    <hr />
+    {% include "sidebar/venues.html"%}
+  </div>
+
+</div>
+{% endblock %}

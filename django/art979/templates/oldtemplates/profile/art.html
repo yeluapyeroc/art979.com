@@ -1,0 +1,90 @@
+<div class="profile_inside profile_left">
+  <div class="profile_image_container">
+    <img src="/media/{{artist.profile_image}}" alt="{{artist}}" />
+  </div>
+
+  <div class="profile_left_box">
+    <div class="profile_info">
+
+      <h2>Information</h2>
+  
+      <b>Location:</b><p>{{artist.location}}</p>
+
+      <b>Webpage:</b><p><a href="{{artist.url}}">{{artist.url}}</a></p>
+
+    </div>
+  </div>
+
+  <div class="profile_left_box">
+    <div class="profile_tags">
+
+      <h2>Tags</h2>
+
+      {%for cat in artist.sub_category.all%}{%ifchanged%}<a href="/{{cat.category.stub}}/"><b>{{cat.category}}:</b></a>{%endifchanged%}<p>{{cat}}</p>{%endfor%}
+
+    </div>
+  </div>
+</div>
+
+{% if art_profile %}
+
+<div class="profile_inside profile_right">
+  <div class="profile_top_wrapper">
+    <div class="profile_image_container">
+		  <img class="profile_image" src="/media/{{art.image}}">
+    </div>
+
+	  <h1>{{art.title}}</h1>
+    {% if art.audio %}
+    <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="25" height="25" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab">
+      <param name="movie" value="/media/flash/singlemp3player.swf?file=/media/{{art.audio}}&backColor=990000&frontColor=ddddff&repeatPlay=false&songVolume=30" />
+      <param name="wmode" value="transparent" />
+      <embed wmode="transparent" width="25" height="25" src="/media/flash/singlemp3player.swf?file=/media/{{art.audio}}&backColor=990000&frontColor=ddddff&repeatPlay=false&songVolume=30" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" />
+    </object>
+    {% endif %}
+    <br>
+  
+	  <div class="bio">
+      <p>
+		  {{art.body}}
+      </p>
+	  </div>
+  </div>
+
+  <div class="profile_venues">
+    <b>Venues this piece can be seen/heard at:</b><br>
+    {% for venue in art.venue.all %}
+      <li>- <a href="/venue/{{venue.key}}/">{{venue.name|cutchars:25}}</a></li>
+    {% endfor %}
+  </div>
+
+  <div class="profile_events">
+    <b>Events this piece can be seen/heard at:</b><br>
+    {% for event in art.event.all %}
+      <li>- <a href="/event/{{event.key}}/">{{event.name|cutchars:25}}</a></li>
+    {% endfor %}
+  </div>
+</div>
+
+  {% else %}
+
+<div class="profile_inside profile_right">
+    <p class="page_links">Page: {%for page in paginator.page_range%}<a href="" class="page_button" rel="{{page}}">{{page}}</a> {%endfor%}</p>
+    <div class="page_wrapper">
+  {% for page in pages %}
+    <div class="page-{{page.number}}">
+    {% for art in page.object_list %}
+      <div class="span-23 art_piece">
+        <div class="profile_image_small_container">
+          <a href="/artist/{{artist.key}}/art/{{art.key}}/"><img class="profile_image_small" src="/media/{{art.image}}"></a>
+        </div>
+        <h1><a href="/artist/{{artist.key}}/art/{{art.key}}/">{{art.title|cutchars:40}}</a></h1>
+        <p>{{art.body|truncatewords:70}}</p>
+      </div>
+    {% endfor %}
+    </div>
+  {% endfor %}
+    </div>
+</div>
+
+  {% endif %}

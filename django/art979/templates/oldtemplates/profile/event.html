@@ -1,0 +1,30 @@
+  <div class="profile_top_wrapper">
+    <div class="profile_image_container">
+		  <img class="profile_image" src="/media/{{event.image}}">
+    </div>
+
+	  <h1>{{event.name}}</h1>
+    <b>When: </b><p class="info">{{event.start_date|date:"l N j"}}, {{event.start_date|time:"g:i a"}} - {{event.end_date|date:"l N j"}}, {{event.end_date|time:"g:i a"}}</p><br>
+    {% if event.url %}<b>Website: </b><p class="info">{{event.url|urlize}}</p><br>{% endif %}
+    <br>
+  
+	  <div class="bio">
+      <p>
+		  {{event.description}}
+      </p>
+	  </div>
+  </div>
+
+  <div class="profile_venues">
+    <b>Venues this event is taking place at:</b><br>
+    {% for venue in event.venue.all %}
+      <li>- <a href="/venue/{{venue.key}}/">{{venue.name|cutchars:25}}</a></li>
+    {% endfor %}
+  </div>
+
+  <div class="profile_artists">
+    <b>Artists that can be seen at this event:</b><br>
+    {% for artist in event.artists.all %}
+      <li>- <a href="/artist/{{artist.key}}/artist/">{{artist.first_name}} {{artist.last_name}}</a></li>
+    {% endfor %}
+  </div>

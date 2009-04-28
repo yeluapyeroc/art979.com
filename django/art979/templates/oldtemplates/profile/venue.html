@@ -1,0 +1,32 @@
+  <div class="profile_top_wrapper">
+    <div class="profile_image_container">
+		  <img class="profile_image" src="/media/{{venue.image}}">
+    </div>
+
+	  <h1>{{venue.name}}</h1>
+    {% if venue.location %}<b>Location: </b><p class="info" id="location">{{venue.location}}</p><a href="" id="map_button">View Map</a><br>{% endif %}
+    {% if venue.location %}<div class="gmap"><img src="http://maps.google.com/staticmap?center={{lat_long}}&zoom=15&markers={{lat_long}},red&size=640x400&key={{gkey}}&sensor=false" alt="Venue Location" /></div>{% endif %}
+    {% if venue.url %}<b>Webpage: </b><p class="info">{{venue.url|urlize}}</p><br>{% endif %}
+    {% if venue.email_contact %}<b>Email: </b><p class="info">{{venue.email_contact}}</p><br>{% endif %}
+    <br>
+  
+	  <div class="bio">
+      <p>
+		  {{venue.about}}
+      </p>
+	  </div>
+  </div>
+
+  <div class="profile_events">
+    <b>Events taking place at {{venue.name}}:</b><br>
+    {% for event in events %}
+      <li>- <a href="/event/{{event.key}}/">{{event.name|cutchars:25}}</a></li>
+    {% endfor %}
+  </div>
+
+  <div class="profile_artists">
+    <b>Artists that can be seen at {{venue.name}}:</b><br>
+    {% for artist in venue.artists.all %}
+      <li>- <a href="/artist/{{artist.key}}/artist/">{{artist.first_name}} {{artist.last_name}}</a></li>
+    {% endfor %}
+  </div>

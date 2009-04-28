@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block body %}
+<div class="span-24">
+  
+  <div class="span-18 append-1">
+  <h2>Login</h2>
+  <form method="post" action=".">
+  {{ form.as_p }}
+  <input type="submit" value="Submit" />
+  <input type="hidden" name="next" value="{{next}}">
+  </form>
+
+  </div>
+
+  <div class="span-5 last sidebar">
+    <br />
+    {% include "sidebar/events.html" %}
+    <hr />
+    {% include "sidebar/artists.html" %}
+    <hr />
+    {% include "sidebar/venues.html" %}
+  </div>
+
+</div>
+{% endblock %}

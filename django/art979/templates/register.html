@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}Artist Registration{% endblock %}
+{% block body %}
+
+<div class="span-24">
+  
+  <div class="span-18 prepend-3 append-3 register">
+  <p>Thank you for your interest in adding yourself to our art community.  Please complete the form as thoroughly as you can.  This will make your listing look more professional and credible.  After submitting your application, you will be required to confirm your email address and the application will then be sent to a website administrator for approval.  You will receive an email notification once your profile is approved and activated. At that time, you can log in and edit your profile at your convenience. One of the goals for this site is to be a complete catalog of of all the artists in the Brazos Valley area.  There is no charge for an artist listing on the site.  Please invite any artist friends you have to come join us.</p>
+  <p>If you are looking to add an art venue or an event but do not want an Artist profile that is made public, <a href="/register/artcoordinator/">register as an venue/event coordinator</a>.  This way your profile can be hidden and only your venues and events will be listed on the site.  We ask that you only add events and venues if you have the permission of the event coordinator or venue owner.  We reserve the right to remove any venue/event profiles that do not accurately represent the venue/event.</p>
+  <p>You can also <a href="/register/artlover/">register to receive weekly updates</a> by email for events listed on this site.</p>
+  <form class="register_form" enctype="multipart/form-data" action="/register/" method="POST">
+  {% for field in form %}
+    <div class="form_field"><label for="{{field.name}}">{{field.label}}:</label> {{field}}</div>
+    {{field.errors}}
+  {% endfor %}
+  <input type="submit" value="Submit" />
+  </form>
+  </div>
+
+</div>
+{% endblock %}

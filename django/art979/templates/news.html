@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block title %}News{% endblock %}
+
+{% block body %}
+<div class="span-24 news">
+
+    <h2>{{story.title}}</h2>
+    <p class="small">By: {{story.author_name}} {{story.user.last_name}} | {{story.pub_date|date:"F d Y"}}</p>
+    <hr/>
+
+    <div class="galleryview_wrapper">
+    <div class="galleryviewHeader"></div>
+    <div id="photos" class="galleryview">
+      <div class="panel">
+        <img src="/media/{{story.image1}}" alt="{{story.title}}" />
+        <div class="panel-overlay">
+          <p>{{story.image1_caption}}</p>
+        </div>
+      </div>
+      {% if story.image2 %}
+      <div class="panel">
+        <img src="/media/{{story.image2}}" alt="{{story.title}}" />
+        <div class="panel-overlay">
+          <p>{{story.image2_caption}}</p>
+        </div>
+      </div>
+      {% endif %}
+      {% if story.image3 %}
+      <div class="panel">
+        <img src="/media/{{story.image3}}" alt="{{story.title}}" />
+        <div class="panel-overlay">
+          <p>{{story.image3_caption}}</p>
+        </div>
+      </div>
+      {% endif %}
+      {% if story.image4 %}
+      <div class="panel">
+        <img src="/media/{{story.image4}}" alt="{{story.title}}" />
+        <div class="panel-overlay">
+          <p>{{story.image4_caption}}</p>
+        </div>
+      </div>
+      {% endif %}
+      {% if story.image5 %}
+      <div class="panel">
+        <img src="/media/{{story.image5}}" alt="{{story.title}}" />
+        <div class="panel-overlay">
+          <p>{{story.image5_caption}}</p>
+        </div>
+      </div>
+      {% endif %}
+    <ul class="filmstrip">
+      {%if story.image1%}<li><img src="/media/{{story.image1}}" alt="{{story.title}}" /></li>{%endif%}
+      {%if story.image2%}<li><img src="/media/{{story.image2}}" alt="{{story.title}}" /></li>{%endif%}
+      {%if story.image3%}<li><img src="/media/{{story.image3}}" alt="{{story.title}}" /></li>{%endif%}
+      {%if story.image4%}<li><img src="/media/{{story.image4}}" alt="{{story.title}}" /></li>{%endif%}
+      {%if story.image5%}<li><img src="/media/{{story.image5}}" alt="{{story.title}}" /></li>{%endif%}
+    </ul>
+    </div>
+    <div class="galleryviewFooter"></div>
+    </div>
+
+    <div class="news_body">{{story.body|safe}}</div>
+    <hr/>
+    <div class="news_related">
+      <h2>Tags</h2><br/>
+      <div class="news_art">
+        <b>Art Pieces:</b>
+        {% for a in story.art.all %}
+        <li><a href="/artist/{{a.getArtist.key}}/art/{{a.key}}/">{{a.title}}</a></li>
+        {% endfor %}
+      </div>
+      <div class="news_artists">
+        <b>Artists:</b>
+        {% for a in story.artist.all %}
+        <li><a href="/artist/{{a.key}}/artist/">{{a.first_name}} {{a.last_name}}</a></li>
+        {% endfor %}
+      </div>
+      <div class="news_events">
+        <b>Events:</b>
+        {% for e in story.event.all %}
+        <li><a href="/event/{{e.key}}/">{{e.name}}</a></li>
+        {% endfor %}
+      </div>
+      <div class="news_venues">
+        <b>Venues:</b>
+        {% for v in story.venue.all %}
+        <li><a href="/venue/{{v.key}}/">{{v.name}}</a></li>
+        {% endfor %}
+      </div>
+    </div>
+  
+</div>
+{% endblock %}

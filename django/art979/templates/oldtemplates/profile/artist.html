@@ -1,0 +1,77 @@
+<script type="text/javascript">
+
+  stepcarousel.setup({
+      galleryid: 'profile_gallery',
+      beltclass: 'belt',
+      panelclass: 'panel',
+      autostep: {enable:false},
+      panelbehavior: {speed:500, wraparound:false, persist:true},
+      defaultbuttons: {enable:true,moveby:1,leftnav:['http://art979.com/media/img/arrow_back.png', -15, 100],rightnav:['http://art979.com/media/img/arrow_next.png', 0, 100]},
+      contenttype: ['inline']
+    })
+
+</script>
+
+<div class="profile_inside profile_left">
+  <div class="profile_image_container">
+    <img src="/media/{{artist.profile_image}}" alt="{{artist}}" />
+  </div>
+
+  <div class="profile_left_box">
+    <div class="profile_info">
+
+      <h2>Information</h2>
+  
+      <b>Location:</b><p>{{artist.location}}</p>
+
+      <b>Webpage:</b><p><a href="{{artist.url}}">{{artist.url}}</a></p>
+
+    </div>
+  </div>
+
+  <div class="profile_left_box">
+    <div class="profile_tags">
+
+      <h2>Tags</h2>
+
+      {%for cat in artist.sub_category.all%}{%ifchanged%}<b>{{cat.category}}:</b>{%endifchanged%}<p>{{cat}}</p>{%endfor%}
+
+    </div>
+  </div>
+</div>
+
+<div class="profile_inside profile_right">
+  <div class="profile_right_box">
+    <h2>{{artist}}</h2>
+ 
+    <p>
+    {{artist.bio}}
+    </p>
+  </div>
+
+  <div class="profile_right_header"><h1>Where To Find {{artist.first_name}}'s Art</h1></div>
+
+  <div class="profile_right_box">
+    <div id="profile_gallery" class="stepcarousel">
+      <div class="belt">
+        {% for venue in artist.venue.all %}
+        <div class="panel">
+          <div class="wrapper">
+            <a href="/venue/{{venue.key}}/"><h3>{{venue}}</h3>
+              <img src="/media/{{venue.image}}" alt="{{venue}}" /></a>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  <div class="profile_right_header"><h1>Events {{artist.first_name}} Will Attend</h1></div>
+
+  <div class="profile_right_box">
+    {% for event in artist.event.all %}
+    <li><a href="/event/{{event.key}}/">{{event}}</a> <b>{{e.start_date|date:"l N j"}}</b></li>
+    {% endfor %}
+  </div>
+
+</div>

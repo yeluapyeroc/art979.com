@@ -1,0 +1,90 @@
+  {% ifequal option "default" %}
+
+    <div class="add"><a href="/account/art/add/"><img src="/media/img/add.gif" alt="Create New Art Piece"><b>Create New Art Piece</b></a></div>
+    <p class="page_links">Page: {%for page in paginator.page_range%}<a href="" class="page_button" rel="{{page}}">{{page}}</a> {%endfor%}</p>
+    <div class="page_wrapper">
+  {% for page in pages %}
+    <div class="page-{{page.number}}">
+    {% for art in page.object_list %}
+      <div class="span-23 art_piece">
+        <div class="edit"><a href="/account/art/edit/{{art.key}}/"><img src="/media/img/edit.gif" alt="Edit Art Piece"></a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/account/art/delete/{{art.key}}/"><img src="/media/img/delete.gif" alt="Delete Art Piece"></a></div>
+        <div class="profile_image_small_container">
+          <a href="/account/art/profile/{{art.key}}/"><img class="profile_image_small" src="/media/{{art.image}}"></a>
+        </div>
+        <h1><a href="/account/art/profile/{{art.key}}/">{{art.title|cutchars:40}}</a></h1>
+        <p>{{art.body|truncatewords:70}}</p>
+      </div>
+    {% endfor %}
+    </div>
+  {% endfor %}
+    </div>
+
+  {% endifequal %}
+
+  {% ifequal option "edit" %}
+
+  <form class="profile_form" enctype="multipart/form-data" action="/account/art/edit/{{art.key}}/" method="POST">
+    {% for field in form %}
+      {% ifequal field.label "Image" %}<img src="/media/{{art.image}}">{% endifequal %}
+      <div class="form_field"><label for="{{field.name}}">{{field.label}}:</label> {{field}}</div>
+      {{field.errors}}
+    {% endfor %}
+  <input type="submit" value="Save" />
+  </form>
+
+  {% endifequal %}
+
+  {% ifequal option "add" %}
+
+  <div class="add_form">
+    <form class="profile_form" enctype="multipart/form-data" action="/account/art/add/" method="POST">
+    {% for field in form %}
+      <div class="form_field"><label for="{{field.name}}">{{field.label}}:</label> {{field}}</div>
+      {{field.errors}}
+    {% endfor %}
+    <input type="submit" value="Add Art" />
+    </form>
+  </div>
+
+  {% endifequal %}
+
+  {% ifequal option "profile" %}
+
+  <div class="profile_top_wrapper">
+    <div class="profile_image_container">
+		  <img class="profile_image" src="/media/{{art.image}}">
+    </div>
+
+    <div class="edit"><a href="/account/art/edit/{{art.key}}/"><img src="/media/img/edit.gif" alt="Edit Art Piece"></a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/account/art/delete/{{art.key}}/"><img src="/media/img/delete.gif" alt="Delete Art Piece"></a></div>
+	  <h1>{{art.title}}</h1>
+    {% if art.audio %}
+    <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="25" height="25" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab">
+      <param name="movie" value="/media/flash/singlemp3player.swf?file=/media/{{art.audio}}&backColor=990000&frontColor=ddddff&repeatPlay=false&songVolume=30" />
+      <param name="wmode" value="transparent" />
+      <embed wmode="transparent" width="25" height="25" src="/media/flash/singlemp3player.swf?file=/media/{{art.audio}}&backColor=990000&frontColor=ddddff&repeatPlay=false&songVolume=30" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" />
+    </object>
+    {% endif %}
+    <br>
+  
+	  <div class="bio">
+      <p>
+		  {{art.body}}
+      </p>
+	  </div>
+  </div>
+
+  <div class="profile_venues">
+    <b>Venues this piece can be seen/heard at:</b><br>
+    {% for venue in art.venue.all %}
+      <li>- <a href="/venue/{{venue.key}}/">{{venue.name|cutchars:25}}</a></li>
+    {% endfor %}
+  </div>
+
+  <div class="profile_events">
+    <b>Events this piece can be seen/heard at:</b><br>
+    {% for event in art.event.all %}
+      <li>- <a href="/event/{{event.key}}/">{{event.name|cutchars:25}}</a></li>
+    {% endfor %}
+  </div>
+
+  {% endifequal %}

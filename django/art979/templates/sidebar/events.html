@@ -1,0 +1,16 @@
+<div class="side_event side_content">
+  <h2>{%if category%}<a href="/{{category.stub}}/events/">{{category.stub|upper}} EVENTS</a>{%else%}UPCOMING EVENTS{%endif%}</h2>
+  <hr/>
+	<ul>
+  {% if side_event %}
+ 	  {% for e in side_event %}
+    {% ifchanged %}<li><span><b>{{e.start_date|date:"l N j"}}</b></span></li>{% endifchanged %}
+      <ul>
+        <li><a href="/event/{{e.key}}/">{{e.name|cutchars:22}}</a></li>
+      </ul>
+    {% endfor %}
+  {% else %}
+    <li class="wraptext">There are no upcoming events{%if category%} in {{category.name}}{%endif%}</li>
+  {% endif %}
+	</ul>
+</div>

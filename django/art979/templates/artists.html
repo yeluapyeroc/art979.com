@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}
+{%if category%}{{ category.name }} |{%endif%} Artists
+{% endblock %}
+
+{% block body %}
+
+<div class="span-24">
+  <div class="category_header">
+    <h2>Artists - {{ category.name }}</h2>
+    <p>{{ category.description }}</p>
+    <div class="page_links_boxHeader">
+      <div></div>
+    </div>
+    <div class="page_links_box">
+    <p class="page_links"><a href="" class="page_button prev_button" rel="prev">prev</a><a href="" class="page_button next_button" rel="next">next</a>{%for page in paginator.page_range%}<a href="" class="page_button" rel="{{page}}">{{page}}</a> {%endfor%}</p>
+    </div>
+    <div class="page_links_boxFooter">
+      <div></div>
+    </div>
+  </div>
+</div>
+
+<div class="span-24">
+  <div class="span-18 artists">
+    <div class="page_wrapper">
+    {% for page in pages %}
+      <div class="page-{{page.number}}">
+      {% for artist in page.object_list %}
+        <div class="span-9 smallProfile{%cycle '' ' last'%}">
+          <div class="smallProfileHeader">
+            <h4><a href="/artist/{{artist.key}}/artist/">{{artist.first_name}} {{artist.last_name}}</a></h4>
+          </div>
+          <div class="smallProfileBody">
+            <a class="smallProfileImage" href="/artist/{{artist.key}}/artist/"><img src="/media/{{artist.profile_image}}" alt="{{artist.first_name}} {{artist.last_name}}"/></a>
+            <p>{{artist.bio|truncatewords:70}} <a href="/artist/{{artist.key}}/artist/">read more<img class="read_more" src="/media/img/read_more.gif" alt="Read More"/></a></p>
+          </div>
+        </div>
+      {% endfor %}
+      </div>
+    {% endfor %}
+    </div>
+
+  </div>
+
+  <div class="span-6 last sidebar">
+    {% include "sidebar/events.html" %}
+    <hr />
+    {% include "sidebar/venues.html" %}
+  </div>
+
+</div>
+
+{% endblock %}

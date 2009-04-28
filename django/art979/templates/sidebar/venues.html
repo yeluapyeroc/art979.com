@@ -1,0 +1,13 @@
+<div class="side_venue side_content">
+  <h2>{%if category%}<a href="/{{category.stub}}/venues/">LOCAL {{category.stub|upper}} VENUES</a>{%else%}LOCAL VENUES{%endif%}</h2>
+  <hr>
+  <ul>
+  {% if side_venue %}
+    {% for v in side_venue %}
+    <li><a href="/venue/{{v.key}}/"><strong>{{v.name|cutchars:22}}</strong></a></li>
+    {% endfor %}
+  {% else %}
+    <li class="wraptext">There are no venues{%if category%} in {{category.name}}{%endif%}</li>
+  {% endif %}
+  </ul>
+</div>

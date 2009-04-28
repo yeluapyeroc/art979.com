@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block title %}
+{%if category%}{{ category.name }} |{%endif%} Events
+{% endblock %}
+
+{% block body %}
+
+<div class="span-24">
+  <div class="category_header">
+    <h2>Events</h2>
+    <form class="profile_form" enctype="multipart/form-data" action="/events/" method="POST">
+    {% for field in form %}
+      <div class="events_form_field"><label for="{{field.name}}">{{field.label}}:</label> {{field}}{% ifequal field.name "after_date" %}<button type="button">Calendar</button>{% endifequal %}{% ifequal field.name "before_date" %}<button type="button">Calendar</button>{% endifequal %}</div>
+      {{field.errors}}
+    {% endfor %}
+    <br>
+    <input type="submit" value="Filter" />
+    </form>
+    <div class="page_links_boxHeader">
+      <div></div>
+    </div>
+    <div class="page_links_box">
+    <p class="page_links"><a href="" class="page_button prev_button" rel="prev">prev</a><a href="" class="page_button next_button" rel="next">next</a>{%for page in paginator.page_range%}<a href="" class="page_button" rel="{{page}}">{{page}}</a> {%endfor%}</p>
+    </div>
+    <div class="page_links_boxFooter">
+      <div></div>
+    </div>
+  </div>
+</div>
+
+<div class="span-24">
+  <div class="span-18 events">
+
+    <div class="page_wrapper">
+    {% for page in pages %}
+      <div class="page-{{page.number}}">
+      {% if page.object_list %}
+      {% for event in page.object_list %}
+        <div class="span-9 smallProfile{%cycle '' ' last'%}">
+          <div class="smallProfileHeader">
+            <h4><a href="/event/{{event.key}}/">{{event.name}}</a></h4>
+          </div>
+          <div class="smallProfileBody">
+            <a class="smallProfileImage" href="/event/{{event.key}}/"><img src="/media/{{event.image}}" alt="{{event.name}}"/></a>
+            <p>{{event.description|truncatewords:70}} <a href="/event/{{event.key}}/">read more<img class="read_more" src="/media/img/read_more.gif" alt="Read More"/></a></p>
+          </div>
+        <div class="smallProfileFooter">
+          <div></div>
+        </div>
+        </div>
+      {% endfor %}
+      {% else %}
+      <h2>There are no events to display</h2>
+      {% endif %}
+      </div>
+    {% endfor %}
+    </div>
+
+  </div>
+
+  <div class="span-6 last sidebar">
+    {% include "sidebar/artists.html" %}
+    <hr />
+    {% include "sidebar/venues.html" %}
+  </div>
+
+</div>
+
+{% endblock %}

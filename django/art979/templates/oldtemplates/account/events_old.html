@@ -1,0 +1,64 @@
+  {% ifequal option "default" %}
+
+    <p class="page_links">Page: {%for page in paginator.page_range%}<a href="" class="page_button">{{page}}</a> {%endfor%}</p>
+    <div class="page_wrapper">
+  {% for page in pages %}
+    <div class="page-{{page.number}}">
+    {% for event in page.object_list %}
+      <div class="span-23 event_piece">
+        <div class="edit"><a href="/account/event-old/edit/{{event.key}}/"><img src="/media/img/edit.gif" alt="Edit Event"></a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/account/event-old/delete/{{event.key}}/"><img src="/media/img/delete.gif" alt="Delete Event"></a></div>
+        <div class="profile_image_small_container">
+          <a href="/account/event-old/profile/{{event.key}}/"><img class="profile_image_small" src="/media/{{event.image}}"></a>
+        </div>
+        <h1><a href="/account/event-old/profile/{{event.key}}/">{{event.name}}</a></h1>
+        <p>{{event.description|truncatewords:70}}<p>
+      </div>
+    {% endfor %}
+    </div>
+  {% endfor %}
+    </div>
+
+  {% endifequal %}
+
+  {% ifequal option "edit" %}
+
+  <form class="profile_form" enctype="multipart/form-data" action="/account/event-old/edit/{{event.key}}/" method="POST">
+    {% for field in form %}
+      {% ifequal field.label "Image" %}<img src="/media/{{event.image}}">{% endifequal %}
+      <div class="form_field"><label for="{{field.name}}">{{field.label}}:</label> {{field}}</div>
+      {{field.errors}}
+    {% endfor %}
+  <input type="submit" value="Save" />
+  </form>
+
+  {% endifequal %}
+
+  {% ifequal option "profile" %}
+
+  <div class="profile_top_wrapper">
+    <div class="profile_image_container">
+		  <img class="profile_image" src="/media/{{event.image}}">
+    </div>
+
+    <div class="edit"><a href="/account/event-old/edit/{{event.key}}/"><img src="/media/img/edit.gif" alt="Edit Event"></a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/account/event-old/delete/{{event.key}}/"><img src="/media/img/delete.gif" alt="Delete Event"></a></div>
+	  <h1>{{event.name}}</h1>
+    <b>When: </b>{{event.start_date|date:"l N j"}}, {{event.start_date|time:"g:i a"}}<br>
+    {% if event.url %}<b>Website: </b>{{event.url|urlize}}<br>{% endif %}
+    <br>
+  
+	  <div class="bio">
+      <b>About:</b>
+      <p>
+		  {{event.description}}
+      </p>
+	  </div>
+  </div>
+
+  <div class="venues">
+    <b>Venues this event is taking place at:</b><br>
+    {% for venue in event.venue.all %}
+      <li>- <a href="/venue/{{venue.key}}/">{{venue.name|cutchars:25}}</a></li>
+    {% endfor %}
+  </div>
+
+  {% endifequal %}

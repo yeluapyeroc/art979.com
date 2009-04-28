@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}Art Lover Registration{% endblock %}
+{% block body %}
+
+<div class="span-24">
+  
+  <div class="span-24 register">
+  <form class="register_form" enctype="multipart/form-data" action="/register/artlover/" method="POST">
+  {% for field in form %}
+    <div class="form_field"><label for="{{field.name}}">{{field.label}}:</label> {{field}}</div>
+    {{field.errors}}
+  {% endfor %}
+  <input type="submit" value="Submit" />
+  </form>
+  </div>
+
+</div>
+{% endblock %}

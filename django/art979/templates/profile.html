@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+<div class="span-24">
+<div id="profile_container">
+
+<div id="profile_nav">
+  <div class="preload"><div></div></div>
+
+  <ul>
+    {% ifequal menu_option "artist" %}
+      <span class="space"><li class="name"><a href="/artist/{{artist.key}}/artist/"><span>{{artist}}</span></a></li></span>
+      <li class="selected"><a href="/artist/{{artist.key}}/artist/"><span>Profile</span></a></li>
+    {% else %}
+    {% ifequal menu_option "art" %}
+      <span class="space"><li class="name"><a href="/artist/{{artist.key}}/artist/"><span>{{artist}}</span></a></li></span>
+      <li><a href="/artist/{{artist.key}}/artist/"><span>Profile</span></a></li>
+    {% endifequal %}
+    {% endifequal %}
+
+    {% ifequal menu_option "art" %}
+      <li class="selected"><a href="/artist/{{artist.key}}/art/"><span>Art Pieces</span></a></li>
+    {% else %}
+    {% ifequal menu_option "artist" %}
+      <li><a href="/artist/{{artist.key}}/art/"><span>Art Pieces</span></a></li>
+    {% endifequal %}
+    {% endifequal %}
+
+    {% ifequal menu_option "event" %}
+      <li class="selected"><a href="/event/{{event.key}}"><span>{{event.name}}</span></a></li>
+    {% endifequal %}
+
+    {% ifequal menu_option "venue" %}
+      <li><a href="/venue/{{venue.key}}"><span>{{venue.name}}</span></a></li>
+    {% endifequal %}
+
+  </ul>
+
+</div>
+
+<div class="span-24 profile_content">
+    {% ifequal menu_option "artist" %}
+      {% include "profile/artist.html" %}
+    {% endifequal %}
+
+    {% ifequal menu_option "art" %}
+      {% include "profile/art.html" %}
+    {% endifequal %}
+
+    {% ifequal menu_option "venue" %}
+      {% include "profile/venue.html" %}
+    {% endifequal %}
+
+    {% ifequal menu_option "event" %}
+      {% include "profile/event.html" %}
+    {% endifequal %}
+</div>
+
+</div>
+</div>
+
+{% endblock %}

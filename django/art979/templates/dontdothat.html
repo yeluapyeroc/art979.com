@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block body %}
+<div class="span-24">
+  
+  <div class="span-18 append-1">
+
+    <p>Please don't change the cookie data for this site. It makes a mess.</p>
+
+  </div>
+
+  <div class="span-5 last sidebar">
+    <br />
+    {% include "sidebar/events.html" %}
+    <hr />
+    {% include "sidebar/artists.html" %}
+    <hr />
+    {% include "sidebar/venues.html" %}
+  </div>
+
+</div>
+{% endblock %}

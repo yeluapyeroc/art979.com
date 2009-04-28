@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+<div class="span-24">
+<div class="grey span-24">
+<div id="profile_container">
+
+<div id="profile_nav">
+
+  <ul>
+
+    {% if perms.Profiles.add_artist %}
+    {% ifequal menu_option "profile" %}
+      <li><a href="/account/profile/" class="current_option"><span>Profile</span></a></li>
+    {% else %}
+      <li><a href="/account/profile/"><span>Profile</span></a></li>
+    {% endifequal %}
+
+    {% ifequal menu_option "art" %}
+      <li><a href="/account/art/" class="current_option"><span>Art Pieces</span></a></li>
+    {% else %}
+      <li><a href="/account/art/"><span>Art Pieces</span></a></li>
+    {% endifequal %}
+    {% endif %}
+
+    {% if perms.Profiles.add_event %}
+    {% ifequal menu_option "event" %}
+      <li><a href="/account/event/" class="current_option"><span>Upcoming Events</span></a></li>
+    {% else %}
+      <li><a href="/account/event/"><span>Upcoming Events</span></a></li>
+    {% endifequal %}
+
+    {% ifequal menu_option "event-old" %}
+      <li><a href="/account/event-old/" class="current_option"><span>Old Events</span></a></li>
+    {% else %}
+      <li><a href="/account/event-old/"><span>Old Events</span></a></li>
+    {% endifequal %}
+    {% endif %}
+
+    {% if perms.Profiles.add_venue %}
+    {% ifequal menu_option "venue" %}
+      <li><a href="/account/venue/" class="current_option"><span>Venues</span></a></li>
+    {% else %}
+      <li><a href="/account/venue/"><span>Venues</span></a></li>
+    {% endifequal %}
+    {% endif %}
+
+    {% if user.is_staff %}
+    {% ifequal menu_option "story" %}
+      <li><a href="/account/story/" class="current_option"><span>Stories</span></a></li>
+    {% else %}
+      <li><a href="/account/story/"><span>Stories</span></a></li>
+    {% endifequal %}
+    {% endif %}
+
+    {% ifequal menu_option "options" %}
+      <li><a href="/account/options/" class="current_option"><span>Account Options</span></a></li>
+    {% else %}
+      <li><a href="/account/options/"><span>Account Options</span></a></li>
+    {% endifequal %}
+
+
+  </ul>
+
+</div>
+
+<div class="span-24 profile_content">
+    {% ifequal menu_option "profile" %}
+      {% include "account/profile.html" %}
+    {% endifequal %}
+
+    {% ifequal menu_option "art" %}
+      {% include "account/art.html" %}
+    {% endifequal %}
+
+    {% ifequal menu_option "venue" %}
+      {% include "account/venues.html" %}
+    {% endifequal %}
+
+    {% ifequal menu_option "event" %}
+      {% include "account/events.html" %}
+    {% endifequal %}
+
+    {% ifequal menu_option "event-old" %}
+      {% include "account/events_old.html" %}
+    {% endifequal %}
+
+    {% if user.is_staff %}
+    {% ifequal menu_option "story" %}
+      {% include "account/stories.html" %}
+    {% endifequal %}
+    {% endif %}
+
+    {% ifequal menu_option "options" %}
+      {% include "account/options.html" %}
+    {% endifequal %}
+</div>
+
+</div>
+</div>
+</div>
+
+{% endblock %}

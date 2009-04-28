@@ -1,0 +1,4 @@
+<b>When: </b><p class="info">{{obj.start_date|date:"l N j"}}, {{obj.start_date|time:"g:i a"}} - {{obj.end_date|date:"l N j"}}, {{obj.end_date|time:"g:i a"}}</p><br>
+{% if obj.url %}<b>Website: </b><p class="info">{{obj.url|urlize}}</p><br>{% endif %}
+
+{{ obj.description}}

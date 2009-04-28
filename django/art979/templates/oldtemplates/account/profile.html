@@ -1,0 +1,50 @@
+  {% ifequal option "default" %}
+
+  <div class="profile_top_wrapper">
+    <div class="profile_image_container">
+		  <img class="profile_image" src="/media/{{artist.profile_image}}">
+    </div>
+
+    <div class="edit"><a href="/account/profile/edit/"><img src="/media/img/edit.gif" alt="Edit Profile"></a></div>
+	  <h1>{{artist.first_name}} {{artist.last_name}}</h1>
+    {% if artist.location %}<b>Location:</b> <p class="info">{{artist.location}}</p><br>{% endif %}
+    {% if artist.url %}<b>Webpage:</b><p class="info"><a href="{{artist.url}}">{{artist.url}}</a></p><br>{% endif %}
+    <br>
+
+	  <div class="bio">
+      <p>
+		  {{artist.bio}}
+      </p>
+	  </div>
+  </div>
+
+  <div class="profile_venues">
+    <b>Venues where {{artist.first_name}} shows art:</b><br>
+    {% for venue in artist.venue.all %}
+      <li>- <a href="/venue/{{venue.key}}/">{{venue.name|cutchars:25}}</a></li>
+    {% endfor %}
+  </div>
+
+  <div class="profile_events">
+    <b>Events that {{artist.first_name}} will be attending:</b><br>
+    {% for event in artist.event.all %}
+      <li>- <a href="/event/{{event.key}}/">{{event.name|cutchars:25}}</a></li>
+    {% endfor %}
+  </div>
+
+  {% endifequal %}
+
+  {% ifequal option "edit" %}
+
+  <br>
+  <form class="profile_form" enctype="multipart/form-data" action="/account/profile/edit/" method="POST">
+    {% for field in form %}
+      {% ifequal field.label "Profile Image" %}<img src="/media/{{artist.profile_image}}">{% endifequal %}
+      <div class="form_field"><label for="{{field.name}}">{{field.label}}:</label> {{field}}</div>
+      {{field.errors}}
+    {% endfor %}
+  <input type="submit" value="Save" />
+  </form>
+  <br>
+
+  {% endifequal %}

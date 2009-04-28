@@ -1,0 +1,51 @@
+  {% ifequal option "default" %}
+
+    <div class="add"><a href="/account/story/add/"><img src="/media/img/add.gif" alt="Create New Story"><b>Create New Story</b></a></div>
+    <p class="page_links">Page: {%for page in paginator.page_range%}<a href="" class="page_button" rel="{{page}}">{{page}}</a> {%endfor%}</p>
+    <div class="page_wrapper">
+  {% for page in pages %}
+    <div class="page-{{page.number}}">
+    {% for story in page.object_list %}
+      <div class="span-23 story_piece">
+        <div class="edit"><a href="/account/story/edit/{{story.key}}/"><img src="/media/img/edit.gif" alt="Edit Venue"></a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/account/story/delete/{{story.key}}/"><img src="/media/img/delete.gif" alt="Delete Story"></a></div>
+        <div class="profile_image_small_container">
+          <a href="/news/{{story.key}}/"><img class="profile_image_small" src="/media/{{story.image1}}"></a>
+        </div>
+        <h1><a href="/news/{{story.key}}/">{{story.title|cutchars:40}}</a></h1>
+        <p>{{story.body|truncatewords:50}}</p>
+      </div>
+    {% endfor %}
+    </div>
+  {% endfor %}
+    </div>
+
+  {% endifequal %}
+
+  {% ifequal option "edit" %}
+
+  <form class="profile_form" enctype="multipart/form-data" action="/account/story/edit/{{story.key}}/" method="POST">
+  {% for field in form %}
+  {% ifequal field.label "Main Image" %} <img src="/media/{{story.image1}}"> {% endifequal %}
+  {% ifequal field.label "Extra Image 1" %} <img src="/media/{{story.image2}}"> {% endifequal %}
+  {% ifequal field.label "Extra Image 2" %} <img src="/media/{{story.image3}}"> {% endifequal %}
+  {% ifequal field.label "Extra Image 3" %} <img src="/media/{{story.image4}}"> {% endifequal %}
+  {% ifequal field.label "Extra Image 4" %} <img src="/media/{{story.image5}}"> {% endifequal %}
+    <div class="form_field"><label for="{{field.name}}">{{field.label}}:</label> {{field}}</div>
+    {{field.errors}}
+  {% endfor %}
+  <input type="submit" value="Save" />
+  </form>
+
+  {% endifequal %}
+
+  {% ifequal option "add" %}
+
+  <form class="profile_form" enctype="multipart/form-data" action="/account/story/add/" method="POST">
+  {% for field in form %}
+    <div class="form_field"><label for="{{field.name}}">{{field.label}}:</label> {{field}}</div>
+    {{field.errors}}
+  {% endfor %}
+  <input type="submit" value="Add Story" />
+  </form>
+
+  {% endifequal %}

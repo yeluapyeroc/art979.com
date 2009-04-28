@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block body %}
+<div class="span-24">
+  <br>
+  <div class="span-18 append-1">
+    <h2>404 - Not Found</h2>
+    <br><br><br><br>
+    <p>Uh oh! Looks like you took a wrong turn somewhere. If you think there is a problem and you should not have ended up here, please contact us at support@art979.com with the details of your problem.</p>
+  </div>
+
+  <div class="span-5 last sidebar">
+    {% include "sidebar/events.html" %}
+    <hr />
+    {% include "sidebar/artists.html" %}
+    <hr />
+    {% include "sidebar/venues.html" %}
+  </div>
+</div>
+
+{% endblock %}
