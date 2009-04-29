@@ -39,7 +39,7 @@ USE_I18N = True
 
 # Absolute path to the directory that holds media.
 # Example: "/home/media/media.lawrence.com/"
-MEDIA_ROOT = '/media/Storage/programming/web/art979.com/httpdocs/media'
+MEDIA_ROOT = '/home/yeluapyeroc/programming/web/art979.com/httpdocs/media'
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash if there is a path component (optional in other cases).
@@ -84,7 +84,7 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    '/media/Storage/programming/web/art979.com/django/art979/templates',
+    '/home/yeluapyeroc/programming/web/art979.com/django/art979/templates',
 )
 
 INSTALLED_APPS = (

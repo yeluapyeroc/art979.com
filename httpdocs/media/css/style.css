@@ -17,3 +17,7 @@ body { font-family: verdana, arial, sans-serif; font-size: 0.8em; background-col
 #cssdropdown a { color: white; } #cssdropdown ul li a:hover { text-decoration: none; }
 #cssdropdown li.headlink { background-color: white; background-image: url(bg.gif); }
 #cssdropdown li.headlink ul { background-image: url(bg.gif); background-position: bottom; padding-bottom: 10px; }
+
+.content {
+    background: #666;
+}

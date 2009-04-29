@@ -24,7 +24,7 @@ class Event(models.Model):
     image = models.ImageField(_('image'), upload_to=image_path, blank=True, null=True)
     start_time = models.TimeField(_('starting time'))
     end_time = models.TimeField(_('ending time'))
-    date = RecurringDateField(_('event date'))
+    date = RecurringDateField(_(' '))
     pub_date = models.DateTimeField(_('publication date'), 'date created', auto_now_add=True)
     last_modified = models.DateTimeField(_('last modified'), 'date last modified', auto_now=True)
     ticket_prices = models.CharField(_('ticket prices'), max_length=75, blank=True, null=True)

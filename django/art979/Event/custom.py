@@ -24,9 +24,11 @@ class RecurringDate(object):
 
 class RecurringDateInput(forms.widgets.Input):
     class Media:
-        js = ("js/recurringdate.js")
+        js = (
+            'js/recurringdate.js',
+        )
         css = {
-                'screen, projection': ("css/recurringdate.css"),
+                'screen, projection': ('css/recurringdate.css',)
                 }
 
     def __init__(self, attrs=None):
@@ -37,6 +39,7 @@ class RecurringDateInput(forms.widgets.Input):
         return mark_safe(u'<div class="recurringDateInput"%s><input%s /></div>' % (flatatt(dict(rel=name)), flatatt(dict(name=name, rel=u'value', type=u'hidden', value=force_unicode(value)))))
 
 class RecurringDateFormField(forms.Field):
+    widget = RecurringDateInput
     default_error_messages = {
             'invalid': _('Please do not alter your headers.'),
             }
@@ -52,7 +55,7 @@ class RecurringDateFormField(forms.Field):
             check_value = value.split(',')
         except:
             raise ValidationError(self.error_messages['invalid'])
-        regex = re.compile(r'(?P<start_date>\d{4},\d\d?,\d\d?),(?P<recur_type>none|multi|daily|weekly|monthly|yearly),(?P<option>\d\d?),(?P<weekly_days>((sun|mon|tue|wed|thu|fri|sat),){,7})(?P<monthly_option>(weekday|monthday),)?(?P<until_date>(\d{4},\d\d?,\d\d?)|never)')
+        regex = re.compile(r'(?P<start_date>\d{4},\d\d?,\d\d?),(?P<start_time>\d\d?:\d\d(?P<start_time_suffix>am|pm)),(?P<end_date>\d{4},\d\d?,\d\d?),(?P<end_time>\d\d?:\d\d(?P<end_time_suffix>am|pm)),(?P<recur_type>none|daily|weekly|monthly|yearly),(?P<weekly_option>\d\d?,)?(?P<weekly_days>((sun|mon|tue|wed|thu|fri|sat),){,7})?(?P<monthly_option>(weekday|monthday),)?(?P<until_date>until,(\d{4},\d\d?,\d\d?)|never)?')
         if not regex.match(value):
             raise ValidationError(self.error_messages['invalid'])
         return value
@@ -64,7 +67,7 @@ class RecurringDateField(models.Field):
         super(RecurringDateField, self).__init__(*args, **kwargs)
 
     def db_type(self):
-        return "char(70)"
+        return "char(100)"
 
     def to_python(self, value):
         if isinstance(value, RecurringDate):

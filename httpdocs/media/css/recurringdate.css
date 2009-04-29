@@ -1,3 +1,132 @@
 .recurringDateInput {
     display: block;
+    width: 75%;
+    height: 375px;
+    margin: 0 auto;
+}
+
+.recurringDateInput-date {
+    width: 100%;
+    float: left;
+}
+
+.recurringDateInput-date div {
+    display: inline;
+}
+
+.recurringDateInput-date input {
+    width: 20%;
+}
+
+.recurringDateInput-options {
+    width: 100%;
+}
+
+.recurringDateInput-recur-type {
+    width: 20%;
+    float: left;
+}
+
+.recurringDateInput-weekly-option {
+    width: 100%;
+    float: left;
+    display: none;
+}
+
+.recurringDateInput-weekly-days {
+    width: 100%;
+    float: left;
+    display: none;
+}
+
+.recurringDateInput-weekly-days label {
+    width: 100%;
+    float: left;
+}
+
+.recurringDateInput-weekly-days input {
+    margin: 0 10px 0 5px;
+    vertical-align: middle;
+}
+
+.recurringDateInput-until {
+    width: 100%;
+    float: left;
+    display: none;
+}
+
+.recurringDateInput-until label {
+    float: left;
+    margin: 10px 0 0 0;
+}
+
+.recurringDateInput-until div {
+    float: left;
+}
+
+.recurringDateInput-monthly-option {
+    width: 100%;
+    float: left;
+    display: none;
+}
+
+.recurringDateInput-monthly-option label {
+    width: 100%;
+    float: left;
+}
+
+.recurringDateInput-calendar {
+    display: block !important;
+    position: absolute;
+    z-index: 600;
+}
+
+.recurringDateCalendar {
+    width: 220px;
+    font-size: 1.0em;
+}
+
+.recurringDateCalendar td, .recurringDateCalendar th {
+    padding: 0 0 0 0;
+}
+
+.recurringDateCalendar td {
+    width: 30px;
+    height: 30px;
+    text-align: center;
+}
+
+.recurringDateCalendar-header {
+    background: black;
+    color: white;
+    border-left: 1px solid black;
+}
+
+.recurringDateCalendar-header th {
+    text-align: center;
+}
+
+.recurringDateCalendar-header td {
+    font-weight: bold;
+}
+
+.recurringDateCalendar-lnav, .recurringDateCalendar-rnav {
+    cursor: pointer;
+}
+
+.recurringDateCalendar-header-days {
+    background: black;
+    color: white;
+    border-left: 1px solid black;
+}
+
+.recurringDateCalendar-row td {
+    background: white;
+    border-top: 1px solid black;
+    border-left: 1px solid black;
+    cursor: pointer;
+}
+
+td.recurringDateCalendar-button:hover {
+    background: yellow;
 }
