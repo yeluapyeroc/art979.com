@@ -6,7 +6,7 @@
  	  {% for e in side_event %}
     {% ifchanged %}<li><span><b>{{e.start_date|date:"l N j"}}</b></span></li>{% endifchanged %}
       <ul>
-        <li><a href="/event/{{e.key}}/">{{e.name|cutchars:22}}</a></li>
+        <li><a href="/event/{{e.key}}/">{{e.name}}</a></li>
       </ul>
     {% endfor %}
   {% else %}

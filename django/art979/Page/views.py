@@ -5,23 +5,33 @@ from django.http import HttpResponse
 from art979.Event.models import Event
 from art979.Event.forms import CreateEventForm
 from art979.Category.models import EventType
+from art979.Story.models import Story
+from art979.Profile.forms import RegisterForm
 
 import datetime, re
 
 def home(request):
-    return render_to_response('home.html', {}, context_instance=RequestContext(request))
+    stories = Story.objects.all().order_by('pub_date')[1:9]
+    feature = Story.objects.all().order_by('pub_date')[0]
+    return render_to_response('home.html', {'stories': stories, 'feature': feature}, context_instance=RequestContext(request))
 
 def gallery(request):
     return render_to_response('gallery.html', {}, context_instance=RequestContext(request))
 
 def register(request):
-    return render_to_response('register.html', {}, context_instance=RequestContext(request))
+    if request.method == 'POST':
+        form = RegisterForm(request.POST, request.FILES)
+    else:
+        form = RegisterForm()
+    return render_to_response('register.html', {'form': form}, context_instance=RequestContext(request))
 
 def story(request, story_id):
     return render_to_response('story.html', {}, context_instance=RequestContext(request))
 
 def category(request, category):
-    return render_to_response('category.html', {}, context_instance=RequestContext(request))
+    stories = Story.objects.filter(subject=category).order_by('pub_date')[1:9]
+    feature = Story.objects.filter(subject=category).order_by('pub_date')[0]
+    return render_to_response('category.html', {'stories': stories, 'feature': feature}, context_instance=RequestContext(request))
 
 def artist_category(request, category, artist_category):
     return render_to_response('category.html', {}, context_instance=RequestContext(request))

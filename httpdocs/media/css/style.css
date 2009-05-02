@@ -1,23 +1,48 @@
-/* General */
-#cssdropdown, #cssdropdown ul { list-style: none; }
-#cssdropdown, #cssdropdown * { padding: 0; margin: 0; }
+body {
+	background:url(../img/bg-page.png) top left repeat-x #333;
+}
 
-/* Head links */
-#cssdropdown li.headlink { width: 220px; float: left; margin-left: -1px; border: 1px black solid; background-color: #e9e9e9; text-align: center; }
-#cssdropdown li.headlink a { display: block; padding: 15px; }
+.sf-menu {
+	background:#333;
+}
 
-/* Child lists and links */
-#cssdropdown li.headlink ul { display: none; border-top: 1px black solid; text-align: left; }
-#cssdropdown li.headlink:hover ul { display: block; }
-#cssdropdown li.headlink ul li a { padding: 5px; height: 17px; }
-#cssdropdown li.headlink ul li a:hover { background-color: #333; }
+.sf-menu a, .sf-menu a:visited {
+	border:0;
+	color:#fff;
+}
 
-/* Pretty styling */
-body { font-family: verdana, arial, sans-serif; font-size: 0.8em; background-color: black; }
-#cssdropdown a { color: white; } #cssdropdown ul li a:hover { text-decoration: none; }
-#cssdropdown li.headlink { background-color: white; background-image: url(bg.gif); }
-#cssdropdown li.headlink ul { background-image: url(bg.gif); background-position: bottom; padding-bottom: 10px; }
+.sf-menu li, .sf-menu li li, .sf-menu li li li {
+	background:#333;
+}
 
-.content {
-    background: #666;
+.sf-menu li:hover, .sf-menu li.sfHover,
+.sf-menu a:focus, .sf-menu a:hover, .sf-menu a:active {
+	background:		#666;
+}
+
+.outter, .outter a, .outter a:visited {
+	color:#fff;
+}
+
+.inner {
+	background: #F9F8F3;
+	border:2em solid #F9F8F3;
+    border-top:;
+}
+
+button:hover, a.button:hover{
+  	background-color:#ffeede;
+ 	border:1px solid #f0d8c2;
+ 	color:#C16A03;
+}
+
+a.button:active{
+	background-color:#6299c5;
+	border:1px solid #6299c5;
+	color:#C16A03;
+}
+
+label {
+	display:block;
+	margin-top:1em;
 }

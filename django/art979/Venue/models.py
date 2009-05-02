@@ -18,6 +18,13 @@ class Venue(models.Model):
     user = models.ForeignKey(User)
     type = models.ManyToManyField(VenueType, related_name='venues')
 
+    class Meta:
+        verbose_name = "Venue"
+        verbose_name_plural = "Venues"
+
+    def __unicode__(self):
+        return self.name
+
     def _get_stub_from_name(self):
         return self.name.tolower().replace(" ", "")
     stub = property(_get_stub_from_name)

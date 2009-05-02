@@ -123,10 +123,10 @@ $(function(){
         var cal = new Calendar();
         $('.recurringDateInput').append('<div class="recurringDateInput-date"></div>');
         $('.recurringDateInput-date').append('<label for="date">When </label>');
-        $('.recurringDateInput-date').append('<div rel="date"><input type="text" rel="start_date" value="start date"></div>');
-        $('.recurringDateInput-date').append('<div rel="time"><input type="text" rel="start_time" value="start time"></div> to ');
-        $('.recurringDateInput-date').append('<div rel="date"><input type="text" rel="end_date" value="end date"></div>');
-        $('.recurringDateInput-date').append('<div rel="time"><input type="text" rel="end_time" value="end time"></div>');
+        $('.recurringDateInput-date').append('<div rel="date"><input type="text" rel="start_date" value="start date" readonly="readonly"></div>');
+        $('.recurringDateInput-date').append('<div rel="time"><input type="text" rel="start_time" value="start time" readonly="readonly"></div> to ');
+        $('.recurringDateInput-date').append('<div rel="date"><input type="text" rel="end_date" value="end date" readonly="readonly"></div>');
+        $('.recurringDateInput-date').append('<div rel="time"><input type="text" rel="end_time" value="end time" readonly="readonly"></div>');
         $('.recurringDateInput').append('\n<div class="recurringDateInput-options"></div>');
         $('.recurringDateInput-options').append('\n<div class="recurringDateInput-recur-type"><input type="radio" name="recur_type" value="none" checked="checked" />Does Not Repeat</div>');
         $('.recurringDateInput-options').append('\n<div class="recurringDateInput-recur-type"><input type="radio" name="recur_type" value="daily" />Repeat Daily</div>');
@@ -136,7 +136,7 @@ $(function(){
         $('.recurringDateInput-options').append('\n<div class="recurringDateInput-weekly-option" rel="weekly">Repeat every <select name="weekly_option"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option></select> weeks</div>');
         $('.recurringDateInput-options').append('\n<div class="recurringDateInput-weekly-days" rel="weekly"><label for="weekly_days">Repeat On:</label>Sun<input type="checkbox" name="weekly_days" value="sun">Mon<input type="checkbox" name="weekly_days" value="mon">Tue<input type="checkbox" name="weekly_days" value="tue">Wed<input type="checkbox" name="weekly_days" value="wed">Thu<input type="checkbox" name="weekly_days" value="thu">Fri<input type="checkbox" name="weekly_days" value="fri">Sat<input type="checkbox" name="weekly_days" value="sat"></div>');
         $('.recurringDateInput-options').append('\n<div class="recurringDateInput-monthly-option" rel="monthly"><label for="monthly_option">Repeat By:</label><input type="radio" name="monthly_option" value="monthday" /> day of the month<input type="radio" name="monthly_option" checked="checked" value="weekday" /> day of the week</div>');
-        $('.recurringDateInput-options').append('\n<div class="recurringDateInput-until"><label for="until_date">Ends: </label><div><input type="radio" name="until_date" value="never" />Never<br><input type="radio" name="until_date" value="until" />Until <input class="recurringDateInput-until-date" type="text" name="until_date" rel="until" /></div></div>');
+        $('.recurringDateInput-options').append('\n<div class="recurringDateInput-until"><label for="until_date">Ends: </label><div><input type="radio" name="until_date" value="never" />Never<br><input type="radio" name="until_date" value="until" />Until <input class="recurringDateInput-until-date" type="text" name="until_date" rel="until" readonly="readonly"></div></div>');
 
         $('.recurringDateInput-date > div[rel="date"] > input').add('.recurringDateInput-until-date').focus(function() {
             $('.recurringDateInput-calendar').remove();
@@ -169,12 +169,12 @@ $(function(){
                 });
             $('.recurringDateCalendar-button').click(function() {
                     var val = (cal.getMonth()+1) + '/' + $(this).html() + '/' + cal.year;
-                    $(this).parent().parent().parent().parent().prev().val(val);
+                    $(this).parent().parent().parent().parent().prev().val(val).change();
                 });
             });
 
         $('.recurringDateInput-date > div[rel="date"] > input').add('.recurringDateInput-until-date').change(function() {
-            $('.recurringDateCalendar-button').click(function() {
+            $('.recurringDateCalendar-button').live("click", function() {
                     var val = (cal.getMonth()+1) + '/' + $(this).html() + '/' + cal.year;
                     $(this).parent().parent().parent().parent().prev().val(val);
                 });
@@ -192,6 +192,48 @@ $(function(){
             $('.recurringDateInput-until').show();
             }
             });
+
+        $('button[rel="test"]').click(function(event) {
+                event.preventDefault();
+                var start_date = $('.recurringDateInput-date > div > input[rel="start_date"]').val();
+                var start_time = $('.recurringDateInput-date > div > input[rel="start_time"]').val();
+                var end_date = $('.recurringDateInput-date > div > input[rel="end_date"]').val();
+                var end_time = $('.recurringDateInput-date > div > input[rel="end_time"]').val();
+                var recur_type = $('.recurringDateInput-options > div > input:checked').val();
+                var weekly_option = $('.recurringDateInput-weekly-option > select > option:selected').val();
+                var weekly_days = new Array();
+                $('.recurringDateInput-weekly-days > input:checked').each(function() {
+                    weekly_days.push($(this).val());
+                    });
+                if(weekly_days.length == 0){
+                var chosen_date = start_date.split('/');
+                chosen_date = new Date(chosen_date[2], chosen_date[0]-1, chosen_date[1]);
+                weekly_days = cal_days_label[chosen_date.getDay()].toLowerCase();
+                }
+                else{
+                    var weekly_days = weekly_days.join(',');
+                }
+                var monthly_option = $('.recurringDateInput-monthly-option > input:checked').val();
+                var until_date = $('.recurringDateInput-until > div > input:checked').val();
+                if(until_date == 'until'){
+                var dateval = $('.recurringDateInput-until-date').val();
+                until_date = until_date + ',' + dateval;
+                }
+                var new_value = start_date + ',' + start_time + ',' + end_date + ',' + end_time + ',' + recur_type;
+                if(recur_type == 'daily'){
+                    new_value = new_value + ',' + until_date;
+                }
+                if(recur_type == 'weekly'){
+                    new_value = new_value + ',' + weekly_option + ',' + weekly_days + ',' + until_date;
+                }
+                if(recur_type == 'monthly'){
+                    new_value = new_value + ',' + monthly_option + ',' + until_date;
+                }
+                if(recur_type == 'yearly'){
+                    new_value = new_value + ',' + until_date;
+                }
+                $('.recurringDateInput > input[rel="value"]').val(new_value);
+                });
         Populate();
 });
 
@@ -199,17 +241,15 @@ function Populate() {
     var value = $('.recurringDateInput > input[rel="value"]').val();
     if(value == '') {
         today = new Date();
-        value = (today.getMonth() + 1) + ',' + today.getDate() + ',' + today.getFullYear() + ',12:01am,' + (today.getMonth() + 1) + ',' + today.getDate() + ',' + today.getFullYear() + ',12:01pm,none,1,weekday,never';
+        value = (today.getMonth() + 1) + '/' + today.getDate() + '/' + today.getFullYear() + ',1:00pm,' + (today.getMonth() + 1) + '/' + today.getDate() + '/' + today.getFullYear() + ',2:00pm,none,1,weekday,until,' + (today.getMonth() +1) + '/' + today.getDate() + '/' + today.getFullYear();
     }
-    var start_date = value.match(/^\d\d?,\d\d?,\d{4}/);
-    start_date = start_date[0].split(',');
-    value = value.replace(/^\d\d?,\d\d?,\d{4},/, '');
+    var start_date = value.match(/^\d\d?\/\d\d?\/\d{4}/);
+    value = value.replace(/^\d\d?\/\d\d?\/\d{4},/, '');
     var start_time = value.match(/^\d\d?:\d\d(?:am|pm)/);
     start_time = start_time[0];
     value = value.replace(/^\d\d?:\d\d(?:am|pm),/, '');
-    var end_date = value.match(/^\d\d?,\d\d?,\d{4}/);
-    end_date = end_date[0].split(',');
-    value = value.replace(/^\d\d?,\d\d?,\d{4},/, '');
+    var end_date = value.match(/^\d\d?\/\d\d?\/\d{4}/);
+    value = value.replace(/^\d\d?\/\d\d?\/\d{4},/, '');
     var end_time = value.match(/^\d\d?:\d\d(?:am|pm)/);
     end_time = end_time[0];
     value = value.replace(/^\d\d?:\d\d(?:am|pm),/, '');
@@ -233,15 +273,15 @@ function Populate() {
         monthly_option = monthly_option[0];
         value = value.replace(/^weekday,|monthday,/, '');
     }
-    var until_date = value.match(/until,\d\d?,\d\d?,\d{4}|never/);
-    if(until_date) {
+    var until_date = value.match(/until,\d\d?\/\d\d?\/\d{4}|never/);
+    if(until_date){
         until_date = until_date[0].split(',');
     }
 
-    $('input[rel="start_date"]').val(start_date.join('/'));
-    $('input[rel="start_time"]').val(start_time);
-    $('input[rel="end_date"]').val(end_date.join('/'));
-    $('input[rel="end_time"]').val(end_time);
+    $('.recurringDateInput-date > div > input[rel="start_date"]').val(start_date);
+    $('.recurringDateInput-date > div > input[rel="start_time"]').val(start_time);
+    $('.recurringDateInput-date > div > input[rel="end_date"]').val(end_date);
+    $('.recurringDateInput-date > div > input[rel="end_time"]').val(end_time);
     $('.recurringDateInput-recur-type > input[value="'+recur_type+'"]').attr("checked", "checked").click();
     if(weekly_option) {
         $('.recurringDateInput-weekly-option > select > option[value="'+weekly_option+'"]').attr("selected", "selected");
@@ -255,6 +295,6 @@ function Populate() {
         $('.recurringDateInput-monthly-option > input[value="'+monthly_option+'"]').attr("checked", "checked");
     }
     if(until_date) {
-        $('.recurringDateInput-until > div > input[value="'+until_date.shift()+'"]').attr("checked", "checked").next().val(until_date.join('/'));
+        $('.recurringDateInput-until > div > input[value="'+until_date.shift()+'"]').attr("checked", "checked").next().val(until_date.shift());
     }
 }

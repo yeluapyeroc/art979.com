@@ -25,9 +25,9 @@
 <div class="span-24">
   <div class="span-18 artists">
     <div class="page_wrapper">
-    {% for page in pages %}
+    {% for story in stories %}
       <div class="page-{{page.number}}">
-      {% for artist in page.object_list %}
+      {% for artist in artists %}
         <div class="span-9 smallProfile{%cycle '' ' last'%}">
           <div class="smallProfileHeader">
             <h4><a href="/artist/{{artist.key}}/artist/">{{artist.first_name}} {{artist.last_name}}</a></h4>

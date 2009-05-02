@@ -1,5 +1,31 @@
 {% extends "base.html" %}
 
 {% block body %}
-
+<div class="span-24 feature">
+  <a href="#"><img src="{{feature.image_lg}}"/></a>
+  <a href="#"><p>{{feature.body|truncatewords:120}}</p></a>
+</div>
+<div class="span-24 subfeatures">
+  <div class="span-18 colborder">
+    {% for story in stories %}
+    <div class="span-6{%cycle '' '' ' last'%}">
+      <a href="#"><img src="{{story.image_sm}}"></a>
+      <a href="#"><p>{{story.body|truncatewords:20}}</p></a>
+    </div>
+    {% endfor %}
+  </div>
+  <div class="span-5 last">
+    <h3>Events</h3>
+    <dl>
+      <dt>Concert #1</dt>
+      <dd class="small">August 4th, 7PM</dd>
+      <dt>Concert #1</dt>
+      <dd class="small">August 4th, 7PM</dd>
+      <dt>Concert #1</dt>
+      <dd class="small">August 4th, 7PM</dd>
+      <dt>Concert #1</dt>
+      <dd class="small">August 4th, 7PM</dd>
+    </dl>
+  </div>
+</div>
 {% endblock %}

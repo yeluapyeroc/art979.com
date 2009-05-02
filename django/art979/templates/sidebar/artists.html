@@ -1,5 +1,5 @@
 <div class="side_artists side_content">
-  <h2>{%if category%}<a href="/{{category.stub}}/artists/">LOCAL{%ifequal category.stub 'music'%} MUSICIANS{%else%}{%ifequal category.stub 'artisan'%} ARTISANS{%else%} {{category.stub|upper}} ARTISTS{%endifequal%}{%endifequal%}</a>{%else%}LOCAL ARTISTS{%endif%}</h2>
+  <h2>{%if category%}<a href="/{{category.stub}}/artists/">Local{%ifequal category.stub 'music'%} Musicians{%else%}{%ifequal category.stub 'artisan'%} Artisans{%else%} {{category.stub|upper}} Artists{%endifequal%}{%endifequal%}</a>{%else%}Local Artist{%endif%}</h2>
   <hr>
   <ul>
   {% if side_artist %}

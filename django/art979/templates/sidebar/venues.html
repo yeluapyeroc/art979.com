@@ -4,7 +4,7 @@
   <ul>
   {% if side_venue %}
     {% for v in side_venue %}
-    <li><a href="/venue/{{v.key}}/"><strong>{{v.name|cutchars:22}}</strong></a></li>
+    <li><a href="/venue/{{v.key}}/"><strong>{{v.name}}</strong></a></li>
     {% endfor %}
   {% else %}
     <li class="wraptext">There are no venues{%if category%} in {{category.name}}{%endif%}</li>

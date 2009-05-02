@@ -13,7 +13,7 @@ feeds = {
 
 urlpatterns = patterns('',
 ## Static Media Serving ##
-	(r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': '/home/yeluapyeroc/programming/web/art979.com/httpdocs/media'}),
+	(r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': '/media/Storage/programming/web/art979.com/httpdocs/media'}),
 
 ## Extras ##
     (r'^feeds/(?P<url>.*)/$', 'django.contrib.syndication.views.feed', {'feed_dict': feeds}),

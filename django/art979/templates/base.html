@@ -2,33 +2,53 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <meta name="verify-v1" content="cEjgfwqq0LDTDv8S4qwRebKI9Zy1IaM6EftZ9DrsVR4=" />
-  <title>Art979.com | {% block title %} Art is here, where are you? {% endblock %}</title>
+  <title>Art979.com | {% block title %}Art is here, where are you?{% endblock %}</title>
   <!-- Framework CSS -->
   <link rel="stylesheet" href="/media/css/screen.css" type="text/css" media="screen, projection"/>
   <link rel="stylesheet" href="/media/css/print.css" type="text/css" media="print"/>
   <!--[if IE]><link rel="stylesheet" href="stylesheets/ie.css" type="text/css" media="screen, projection"/><![endif]-->
+  <link rel="stylesheet" href="/media/css/buttons.css" type="text/css" media="screen, projection"/>
+  <link rel="stylesheet" href="/media/css/superfish.css" type="text/css" media="screen, projection"/>
+  <link rel="stylesheet" href="/media/css/superfish-navbar.css" type="text/css" media="screen, projection"/>
   <link rel="stylesheet" href="/media/css/style.css" type="text/css" media="screen, projection"/>
   <script type="text/javascript" src="/media/js/prototypes.js"></script>
   <script type="text/javascript" src="/media/js/jquery-1.3.2.js"></script>
+  <script type="text/javascript" src="/media/js/jquery.bgiframe.min.js"></script>
+  <script type="text/javascript" src="/media/js/superfish.js"></script>
   <script type="text/javascript" src="/media/js/art979.js"></script>
   {% block extrahead %}
   {% endblock %}
 </head>
 <body>
-  <div class="container header">
+  <div id="header" class="container outter">
     <div class="span-24">
-      <div class="span-10">
-        <h1><a href="http://art979.com"><img src="/media/img/logo.png" id="logo" alt="Art979.com"/> Art is here, where are you?</a></h1>
+      <div class="span-7">
+        <h1>Art979</h1>
+        <p>Art is here, where are you?</p>
       </div>
-      <div class="span-6 push-2">
-	      <a href="http://onthesideshow.com"><img src="/media/img/banner.jpg" alt="Slideshow Creative"/></a>
+      <div class="span-10">
+	      <a href="http://onthesideshow.com"><img src="/media/img/banner.jpg" alt="Sideshow Creative"/></a>
+      </div>
+      <div class="span-7 last">
+        {% if user.is_authenticated %}
+    	    <br>
+    	    <p>
+        		{% if perms.Profiles.add_artist %}<a href="/account/profile/">My Profile</a> |{% endif %}
+        		{% if perms.Profiles.add_art %}<a href="/account/art/">My Art Pieces</a> |{% endif %}
+      			{% if perms.Profiles.add_event %}<a href="/account/event/">My Events</a> |{% endif %}
+      			{% if perms.Profiles.add_venue %}<a href="/account/venue/">My Venues</a> |{% endif %}
+      			{% if user.is_staff %}<a href="/account/story/">My Stories</a> |{% endif %}
+  			    <a href="/account/options/">Account Options</a> |
+   			    <a href="/logout/">Logout</a>
+    		  </p>
+        {% else %}
+    	    <p><a href="/register/"><span>Register</span></a> | <a href="/login/"><span>Login</span></a></p>
+        {% endif %}
       </div>
     </div>
   </div>
-  <!-- End container header -->
-
-  <div class="container nav">
-    <ul id="nav">
+  <div id="stage" class="container inner">
+    <ul id="nav" class="sf-menu span-24">
 	    <li class="top"><a href="/visual/" id="visual" class="top_link"><span class="down">Visual</span></a>
 		    <ul class="sub">
 			    <li><a href="/visual/artists/" class="fly">Artists</a>
@@ -41,7 +61,7 @@
 			    <li><a href="/visual/events/">Events</a></li>
 		    </ul>
 	    </li>
-    
+
 	    <li class="top"><a href="/music/" id="music" class="top_link"><span class="down">Music</span></a>
 		    <ul class="sub">
 			    <li><a href="/music/artists/" class="fly">Artists</a>
@@ -144,44 +164,23 @@
 		    </ul>
 	    </li>
 
-    {% else %}
-
-	    <li class="top"><a href="/register/" id="register" class="top_link"><span class="down">Account</span></a>
-		    <ul class="sub larger">
-			    <li><a href="/register/">Register as an Artist</a></li>
-			    <li><a href="/register/artcoordinator/">Register as a Venue Coordinator</a></li>
-			    <li><a href="/register/artlover/">Register For Local Art Updates</a></li>
-			    <li><a href="/account/login/">Login</a></li>
-		    </ul>
-	    </li>
-
+    {% else %}	    
     {% endif %}
 
-        <li class="top"><a href="/gallery/" id="gallery" class="top_link"><span>Gallery</span></a></li>
-        <li class="top"><a href="/events/" id="events" class="top_link"><span>Events</span></a></li>
+      <li class="top"><a href="/gallery/" id="gallery" class="top_link"><span>Gallery</span></a></li>
+      <li class="top"><a href="/events/" id="events" class="top_link"><span>Events</span></a></li>
     </ul>
-  </div>
-  <!-- End container nav -->
-
-  <div class="container page">
     <div class="content span-24">
     {% block body %}
     
     {% endblock %}
     </div>
     <div class="span-24 page_footer">
-
       <div class="span-8">
-
-        <div class="bottom_calendar_wrapper">
-          <div class="header"><div class="left"></div><div class="middle"></div></div>
-          <div class="bottom_calendar"></div>
-        </div>
-
+        Calendar
       </div>
-
       <div class="span-8 feeds">
-        <h1>Rss Feeds</h1>
+        <h4>Rss Feeds</h4>
         <div class="span-4">
           <ul>
             <li><a href="/feeds/news/"><b>Stories</b></a>
@@ -197,7 +196,7 @@
             </li>
           </ul>
         </div>
-        <div class="span-4">
+        <div class="span-4 last">
           <ul>
             <li><a href="/feeds/events/"><b>Events</b></a>
               <ul>
@@ -215,16 +214,16 @@
       </div>
 
       <div class="span-8 bottom_ad">
-	    <img src="/media/img/Sq_fidelis_web_ad.gif" alt="Fidelis"/>
+	      <img src="/media/img/Sq_fidelis_web_ad.gif" alt="Fidelis"/>
       </div>
 
     </div>
   </div>
   <!-- End container page -->
 
-<!--<div class="footer">
-  <strong>Copyright &copy; 2008</strong> | <a href="http://thecreativespace.org">TheCreativeSpace</a>
-</div>-->
+<div class="footer">
+  <strong>Copyright &copy; 2008</strong> | <a href="http://thecreativespace.org">The Creative Space</a>
+</div>
 
 </body>
 </html>

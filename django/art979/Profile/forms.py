@@ -36,9 +36,20 @@ class RegisterForm(forms.ModelForm):
             label = _('Password Confirmation'),
             widget = forms.PasswordInput
             )
+    first_name = forms.CharField(
+            label = _('First Name')
+            )
+    last_name = forms.CharField(
+            label = _('Last Name')
+            )
+
+    email = forms.EmailField(
+            label = _('Email Address')
+            )
 
     class Meta:
         model = UserProfile
+        fields = ['username', 'password1', 'password2', 'first_name', 'last_name', 'email', 'artist_profile', 'gender', 'birth_date', 'location', 'occupation', 'phone_number', 'bio', 'interests', 'categories', 'show_email', 'has_avatar', 'gets_updates']
 
     def clean_username(self):
         username = self.cleaned_data["username"]
