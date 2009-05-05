@@ -23,7 +23,7 @@ class RecurringDate(object):
             duration = datetime.timedelta(hours=1)
             self.start_datetime = datetime.datetime.today()
             self.end_datetime = datetime.datetime.today() + duration
-            self.db_value = "%s/%s/%s,1:00pm,%s/%s/%s,2:00pm,none" % (start_datetime.month, start_datetime.day, start_datetime.year, end_datetime.month, end_datetime.day, end_datetime.year)
+            self.db_value = "%s/%s/%s,1:00pm,%s/%s/%s,2:00pm,none" % (self.start_datetime.month, self.start_datetime.day, self.start_datetime.year, self.end_datetime.month, self.end_datetime.day, self.end_datetime.year)
         else:
             self.db_value = data
             match = self.regex.match(data)
