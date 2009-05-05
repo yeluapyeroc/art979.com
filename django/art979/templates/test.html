@@ -9,12 +9,11 @@
 {% block body %}
 
 {% if form %}
-<form>
+<form enctype="multipart/form-data" action="/test/" method="POST">
 {% for field in form %}
 <div class="form_field"><label for="{{field.name}}">{{field.label}}</label> {{field}}</div>
 {{field.errors}}
 {% endfor %}
-<button rel="test">test</button>
 <input type="submit" value="Save" />
 </form>
 {% endif %}

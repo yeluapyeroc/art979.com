@@ -9,7 +9,7 @@
     float: left;
 }
 
-.recurringDateInput-date div {
+.recurringDateInput-date div.selection {
     display: inline;
 }
 
@@ -78,6 +78,45 @@
     display: block !important;
     position: absolute;
     z-index: 600;
+}
+
+.recurringDateInput-clock {
+    display: block !important;
+    position: absolute;
+    z-index: 600;
+    background: #666;
+}
+
+.recurringDateInput-clock div.timewrapper {
+    display: block !important;
+    width: 122px;
+}
+
+.recurringDateInput-clock div div {
+    text-align: center;
+    float: left;
+    width: 60px;
+    border-right: 1px solid black;
+    cursor: pointer;
+}
+
+.recurringDateInput-clock div div.time-left, .recurringDateInput-clock div div.time-right {
+    background: #ccc;
+}
+
+.recurringDateInput-clock div div.time-left:hover, .recurringDateInput-clock div div.time-right:hover {
+    background: #666;
+}
+
+.recurringDateInput-clock div div div.time-minutes {
+    display: block;
+    position: absolute;
+    z-index: 700;
+    background: #666;
+}
+
+.recurringDateInput-clock div div div.time-minutes div:hover {
+    background: #ccc;
 }
 
 .recurringDateCalendar {

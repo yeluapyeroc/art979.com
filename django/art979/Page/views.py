@@ -1,6 +1,6 @@
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 
 from art979.Event.models import Event
 from art979.Event.forms import CreateEventForm
@@ -100,7 +100,17 @@ def model_get(request, model_type, art_type=None, art_id=None, model_id=None):
     return render_to_response('account.html', {}, context_instance=RequestContext(request))
 
 def test(request):
-    form = CreateEventForm()
+    if request.method == "POST":
+        form = CreateEventForm(request.POST, request.FILES)
+        if form.is_valid():
+            new_event = form.save(commit=False)
+            new_event.user = request.user
+            new_event.save()
+            form.save_m2m()
+            return HttpResponseRedirect('/')
+    else:
+        form = CreateEventForm()
+
     return render_to_response('test.html', {'form': form}, context_instance=RequestContext(request))
 
 def verify_email(request):

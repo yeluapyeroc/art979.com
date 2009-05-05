@@ -12,50 +12,126 @@ import datetime, re
 EMPTY_VALUES = (None, '', [], {})
 
 class RecurringDate(object):
-    regex = re.compile(r'(?P<start_date>\d{4}/\d\d?/\d\d?),(?P<start_time>\d\d?:\d\d(?P<start_time_suffix>am|pm)),(?P<end_date>\d{4}/\d\d?/\d\d?),(?P<end_time>\d\d?:\d\d(?P<end_time_suffix>am|pm)),(?P<recur_type>none|daily|weekly|monthly|yearly),?(?P<weekly_option>\d\d?,)?(?P<weekly_days>((sun|mon|tue|wed|thu|fri|sat),){,7})?(?P<monthly_option>(weekday|monthday),)?((?P<until>until|never),?(?P<until_date>\d{4}/\d\d?/\d\d?)?)?')
+    """
+    Class that defines an event date that repeats at certain intervals.
+    Either none, daily, weekly, monthly, or yearly.
+    """
+    regex = re.compile(r'(?P<start_date>\d\d?/\d\d?/\d{4}),((?P<start_time>\d\d?:\d\d)(?P<start_time_suffix>am|pm)),(?P<end_date>\d\d?/\d\d?/\d{4}),((?P<end_time>\d\d?:\d\d)(?P<end_time_suffix>am|pm)),(?P<recur_type>none|daily|weekly|monthly|yearly),?(?P<weekly_option>\d\d?,)?(?P<weekly_days>((sun|mon|tue|wed|thu|fri|sat),){,7})?(?P<monthly_option>(weekday|monthday),)?((?P<until>until|never),?(?P<until_date>\d\d?/\d\d?/\d{4})?)?')
     def __init__(self, data=None):
         self.datetimes = []
         if not data:
             duration = datetime.timedelta(hours=1)
-            self.datetimes.append((datetime.datetime.today(), (datetime.datetime.today()+duration)))
+            self.start_datetime = datetime.datetime.today()
+            self.end_datetime = datetime.datetime.today() + duration
+            self.db_value = "%s/%s/%s,1:00pm,%s/%s/%s,2:00pm,none" % (start_datetime.month, start_datetime.day, start_datetime.year, end_datetime.month, end_datetime.day, end_datetime.year)
         else:
+            self.db_value = data
             match = self.regex.match(data)
-            if not match:
+            if not match.group(0):
                 raise
-            start_date = match['start_date'].split('/')
-            start_time = match['start_time'].split(':')
-            start_time_suffix = match['start_time_suffix']
-            if start_time_suffix == 'pm' and end_time[0] != 12:
-                start_time[0] = start_time[0] + 12
-            if start_time_suffix == 'am' and start_time[0] == 12:
+            start_date = match.group('start_date').split('/')
+            start_time = match.group('start_time').split(':')
+            start_time_suffix = match.group('start_time_suffix')
+            if start_time_suffix == 'pm' and int(start_time[0]) != 12:
+                start_time[0] = int(start_time[0]) + 12
+            if start_time_suffix == 'am' and int(start_time[0]) == 12:
                 start_time[0] = 0
-            start_datetime = datetime.datetime(start_date[2], start_date[0], start_date[1], start_time[0], start_time[1])
-            end_date = match['end_date'].split('/')
-            end_time = match['end_time'].split(':')
-            end_time_suffix = match['end_time_suffix']
-            if end_time_suffix == 'pm' and end_time[0] != 12:
-                end_time[0] = end_time[0] + 12
-            if end_time_suffix == 'am' and end_time[0] == 12:
+            self.start_datetime = datetime.datetime(int(start_date[2]), int(start_date[0]), int(start_date[1]), int(start_time[0]), int(start_time[1]))
+            end_date = match.group('end_date').split('/')
+            end_time = match.group('end_time').split(':')
+            end_time_suffix = match.group('end_time_suffix')
+            if end_time_suffix == 'pm' and int(end_time[0]) != 12:
+                end_time[0] = int(end_time[0]) + 12
+            if end_time_suffix == 'am' and int(end_time[0]) == 12:
                 end_time[0] = 0
-            end_datetime = datetime.datetime(end_date[2], end_date[0], end_date[1], end_time[0], end_time[1])
-            self.datetimes.append((start_datetime,end_datetime))
-            self.recur_type = match['recur_type']
-            self.weekly_option = match['weekly_option']
-            self.weekly_days = match['weekly_days']
-            self.monthly_option = match['monthly_option']
-            self.until = match['until']
-            self.until_date = match['until_date']
-
-    def _get_db_value(self):
-        return ','.join(self.data)
-    db_value = property(_get_db_value)
+            self.end_datetime = datetime.datetime(int(end_date[2]), int(end_date[0]), int(end_date[1]), int(end_time[0]), int(end_time[1]))
+            self.recur_type = match.group('recur_type')
+            self.weekly_option = match.group('weekly_option')
+            self.weekly_days = match.group('weekly_days')
+            self.monthly_option = match.group('monthly_option')
+            self.until = match.group('until')
+            until_date = match.group('until_date').split('/')
+            self.until_date = datetime.date(int(until_date[2]), int(until_date[0]), int(until_date[1]))
 
     def __unicode__(self):
-        return ','.join(self.data)
+        return self.db_value
+
+    def __lt__(self, other):
+        if other.__name__ == "datetime":
+            if self.start_datetime < other:
+                return True
+            else:
+                return False
+        if other.__name__ == "RecurringDate":
+            if self.start_datetime < other.start_datetime:
+                return True
+            else:
+                return False
+
+    def __le__(self, other):
+        if other.__name__ == "datetime":
+            if self.start_datetime <= other:
+                return True
+            else:
+                return False
+        if other.__name__ == "RecurringDate":
+            if self.start_datetime <= other.start_datetime:
+                return True
+            else:
+                return False
+
+    def __eq__(self, other):
+        if other.__name__ == "datetime":
+            if self.start_datetime == other:
+                return True
+            else:
+                return False
+        if other.__name__ == "RecurringDate":
+            if self.start_datetime == other.start_datetime:
+                return True
+            else:
+                return False
+
+    def __ne__(self, other):
+        if other.__name__ == "datetime":
+            if self.start_datetime != other:
+                return True
+            else:
+                return False
+        if other.__name__ == "RecurringDate":
+            if self.start_datetime != other.start_datetime:
+                return True
+            else:
+                return False
+
+    def __gt__(self, other):
+        if other.__name__ == "datetime":
+            if self.start_datetime > other:
+                return True
+            else:
+                return False
+        if other.__name__ == "RecurringDate":
+            if self.start_datetime > other.start_datetime:
+                return True
+            else:
+                return False
+
+    def __ge__(self, other):
+        if other.__name__ == "datetime":
+            if self.start_datetime >= other:
+                return True
+            else:
+                return False
+        if other.__name__ == "RecurringDate":
+            if self.start_datetime >= other.start_datetime:
+                return True
+            else:
+                return False
 
 class RecurringDateInput(forms.widgets.Input):
     class Media:
         js = (
+            'js/jquery-1.3.2.js',
             'js/recurringdate.js',
         )
         css = {
@@ -85,10 +161,33 @@ class RecurringDateFormField(forms.Field):
         try:
             check_value = value.split(',')
         except:
-            raise ValidationError(self.error_messages['invalid'])
-        regex = re.compile(r'(?P<start_date>\d{4}/\d\d?/\d\d?),(?P<start_time>\d\d?:\d\d(?P<start_time_suffix>am|pm)),(?P<end_date>\d{4}/\d\d?/\d\d?),(?P<end_time>\d\d?:\d\d(?P<end_time_suffix>am|pm)),(?P<recur_type>none|daily|weekly|monthly|yearly),?(?P<weekly_option>\d\d?,)?(?P<weekly_days>((sun|mon|tue|wed|thu|fri|sat),){,7})?(?P<monthly_option>(weekday|monthday),)?(?P<until_date>until,(\d{4}/\d\d?/\d\d?)|never)?')
-        if not regex.match(value):
-            raise ValidationError(self.error_messages['invalid'])
+            raise forms.ValidationError(self.error_messages['invalid'])
+        regex = re.compile(r'(?P<start_date>\d\d?/\d\d?/\d{4}),((?P<start_time>\d\d?:\d\d)(?P<start_time_suffix>am|pm)),(?P<end_date>\d\d?/\d\d?/\d{4}),((?P<end_time>\d\d?:\d\d)(?P<end_time_suffix>am|pm)),(?P<recur_type>none|daily|weekly|monthly|yearly),?(?P<weekly_option>\d\d?,)?(?P<weekly_days>((sun|mon|tue|wed|thu|fri|sat),){,7})?(?P<monthly_option>(weekday|monthday),)?((?P<until>until|never),?(?P<until_date>\d\d?/\d\d?/\d{4})?)?')
+        match = regex.match(value)
+        if not match.group(0):
+            raise forms.ValidationError(self.error_messages['invalid'])
+        start_date = match.group('start_date').split('/')
+        start_time = match.group('start_time').split(':')
+        start_time_suffix = match.group('start_time_suffix')
+        if start_time_suffix == 'pm' and int(start_time[0]) != 12:
+            start_time[0] = int(start_time[0]) + 12
+        if start_time_suffix == 'am' and int(start_time[0]) == 12:
+            start_time[0] = 0
+        start_datetime = datetime.datetime(int(start_date[2]), int(start_date[0]), int(start_date[1]), int(start_time[0]), int(start_time[1]))
+        end_date = match.group('end_date').split('/')
+        end_time = match.group('end_time').split(':')
+        end_time_suffix = match.group('end_time_suffix')
+        if end_time_suffix == 'pm' and int(end_time[0]) != 12:
+            end_time[0] = int(end_time[0]) + 12
+        if end_time_suffix == 'am' and int(end_time[0]) == 12:
+            end_time[0] = 0
+        end_datetime = datetime.datetime(int(end_date[2]), int(end_date[0]), int(end_date[1]), int(end_time[0]), int(end_time[1]))
+        if end_datetime < start_datetime:
+            raise forms.ValidationError("The event's start date/time must come before the end date/time")
+        until_date = match.group('until_date').split('/')
+        until_date = datetime.datetime(int(until_date[2]), int(until_date[0]), int(until_date[1]), int(start_time[0]), int(start_time[1]))
+        if until_date and until_date < start_datetime:
+            raise forms.ValidationError("The event's until date must come after the start date/time")
         return value
 
 class RecurringDateField(models.Field):

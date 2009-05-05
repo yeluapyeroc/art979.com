@@ -123,36 +123,72 @@ $(function(){
         var cal = new Calendar();
         $('.recurringDateInput').append('<div class="recurringDateInput-date"></div>');
         $('.recurringDateInput-date').append('<label for="date">When </label>');
-        $('.recurringDateInput-date').append('<div rel="date"><input type="text" rel="start_date" value="start date" readonly="readonly"></div>');
-        $('.recurringDateInput-date').append('<div rel="time"><input type="text" rel="start_time" value="start time" readonly="readonly"></div> to ');
-        $('.recurringDateInput-date').append('<div rel="date"><input type="text" rel="end_date" value="end date" readonly="readonly"></div>');
-        $('.recurringDateInput-date').append('<div rel="time"><input type="text" rel="end_time" value="end time" readonly="readonly"></div>');
+        $('.recurringDateInput-date').append('<div class="selection" rel="date"><input type="text" rel="start_date" value="start date" readonly="readonly"></div>');
+        $('.recurringDateInput-date').append('<div class="selection" rel="time"><input type="text" rel="start_time" value="start time" readonly="readonly"></div> to ');
+        $('.recurringDateInput-date').append('<div class="selection" rel="date"><input type="text" rel="end_date" value="end date" readonly="readonly"></div>');
+        $('.recurringDateInput-date').append('<div class="selection" rel="time"><input type="text" rel="end_time" value="end time" readonly="readonly"></div>');
         $('.recurringDateInput').append('\n<div class="recurringDateInput-options"></div>');
         $('.recurringDateInput-options').append('\n<div class="recurringDateInput-recur-type"><input type="radio" name="recur_type" value="none" checked="checked" />Does Not Repeat</div>');
-        $('.recurringDateInput-options').append('\n<div class="recurringDateInput-recur-type"><input type="radio" name="recur_type" value="daily" />Repeat Daily</div>');
-        $('.recurringDateInput-options').append('\n<div class="recurringDateInput-recur-type"><input type="radio" name="recur_type" value="weekly" />Repeat Weekly</div>');
-        $('.recurringDateInput-options').append('\n<div class="recurringDateInput-recur-type"><input type="radio" name="recur_type" value="monthly" />Repeat Monthly</div>');
-        $('.recurringDateInput-options').append('\n<div class="recurringDateInput-recur-type"><input type="radio" name="recur_type" value="yearly" />Repeat Yearly</div>');
+        $('.recurringDateInput-options').append('\n<div class="recurringDateInput-recur-type"><input type="radio" name="recur_type" value="daily" />Repeats Daily</div>');
+        $('.recurringDateInput-options').append('\n<div class="recurringDateInput-recur-type"><input type="radio" name="recur_type" value="weekly" />Repeats Weekly</div>');
+        $('.recurringDateInput-options').append('\n<div class="recurringDateInput-recur-type"><input type="radio" name="recur_type" value="monthly" />Repeats Monthly</div>');
+        $('.recurringDateInput-options').append('\n<div class="recurringDateInput-recur-type"><input type="radio" name="recur_type" value="yearly" />Repeats Yearly</div>');
         $('.recurringDateInput-options').append('\n<div class="recurringDateInput-weekly-option" rel="weekly">Repeat every <select name="weekly_option"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option></select> weeks</div>');
         $('.recurringDateInput-options').append('\n<div class="recurringDateInput-weekly-days" rel="weekly"><label for="weekly_days">Repeat On:</label>Sun<input type="checkbox" name="weekly_days" value="sun">Mon<input type="checkbox" name="weekly_days" value="mon">Tue<input type="checkbox" name="weekly_days" value="tue">Wed<input type="checkbox" name="weekly_days" value="wed">Thu<input type="checkbox" name="weekly_days" value="thu">Fri<input type="checkbox" name="weekly_days" value="fri">Sat<input type="checkbox" name="weekly_days" value="sat"></div>');
         $('.recurringDateInput-options').append('\n<div class="recurringDateInput-monthly-option" rel="monthly"><label for="monthly_option">Repeat By:</label><input type="radio" name="monthly_option" value="monthday" /> day of the month<input type="radio" name="monthly_option" checked="checked" value="weekday" /> day of the week</div>');
         $('.recurringDateInput-options').append('\n<div class="recurringDateInput-until"><label for="until_date">Ends: </label><div><input type="radio" name="until_date" value="never" />Never<br><input type="radio" name="until_date" value="until" />Until <input class="recurringDateInput-until-date" type="text" name="until_date" rel="until" readonly="readonly"></div></div>');
 
-        $('.recurringDateInput-date > div[rel="date"] > input').add('.recurringDateInput-until-date').focus(function() {
+        $('.recurringDateInput-date > div[rel="time"] > input').click(function() {
+            $(this).parent().append('<div class="recurringDateInput-clock"></div>');
+            $(this).next().append('<div class="timewrapper"><div>am</div><div>pm</div></div>');
+            for(var i=0;i<12;i++) {
+            if(i==0) {
+            $(this).next().append('<div class="timewrapper"><div class="time-left" rel="12">midnight</div><div class="time-right" rel="12">noon</div></div>');
+            }else{
+            $(this).next().append('<div class="timewrapper"><div class="time-left" rel="'+i+'">' + i + '</div><div class="time-right" rel="'+i+'">' + i + '</div></div>');
+            }
+            $('.recurringDateInput-clock').css("margin-left", $(this).offset().left - $(this).parent().parent().offset().left);
+            }
+            $('.time-left').hover(function() {
+                $(this).append('<div class="time-minutes"></div>');
+                $(this).find('.time-minutes').css("margin-left", "-60");
+                $(this).find('.time-minutes').css("margin-top", "-18");
+                for(var i=0;i<6;i++) {
+                $(this).find('.time-minutes').append('<div rel="'+i+'0">'+i+'0</div>');
+                }
+                $(this).find('.time-minutes > div').click(function() {
+                    $(this).parent().parent().parent().parent().prev().val($(this).parent().parent().attr('rel') + ':' + $(this).attr('rel') + 'am');
+                    });
+                },function(){
+                $(this).find('.time-minutes').remove();
+                });
+            $('.time-right').hover(function() {
+                $(this).append('<div class="time-minutes"></div>');
+                $(this).find('.time-minutes').css("margin-left", "60");
+                $(this).find('.time-minutes').css("margin-top", "-18");
+                for(var i=0;i<6;i++) {
+                $(this).find('.time-minutes').append('<div rel="'+i+'0">'+i+'0</div>');
+                }
+                $(this).find('.time-minutes > div').click(function() {
+                    $(this).parent().parent().parent().parent().prev().val($(this).parent().parent().attr('rel') + ':' + $(this).attr('rel') + 'pm');
+                    });
+                },function(){
+                $(this).find('.time-minutes').remove();
+                });
+            });
+
+        $('.recurringDateInput-date > div[rel="time"]').hover(function() {
+            $('.recurringDateInput-clock').show();
+            },function() {
+            $('.recurringDateInput-clock').remove();
+            });
+
+        $('.recurringDateInput-date > div[rel="date"] > input').add('.recurringDateInput-until-date').click(function() {
             $('.recurringDateInput-calendar').remove();
             $(this).parent().append('<div class="recurringDateInput-calendar"></div>');
             var selected_date = $(this).val().split('/');
             $('.recurringDateInput-calendar').append(cal.generateHTML(selected_date[2], selected_date[0]-1));
             $('.recurringDateInput-calendar').css("margin-left", $(this).offset().left - $(this).parent().parent().offset().left);
-            $(this).hover(function() {
-                $('.recurringDateInput-calendar').show();
-                },function() {
-                });
-            $('.recurringDateInput-calendar').hover(function() {
-                $(this).show();
-                }, function() {
-                $(this).remove();
-                });
             $('.recurringDateCalendar-lnav').click(function() {
                 cal.prevMonth();
                 $(this).next().replaceWith('<th colspan="5">' + cal_months_label[cal.getMonth()] + '&nbsp;' + cal.year + '</th>');
@@ -171,6 +207,12 @@ $(function(){
                     var val = (cal.getMonth()+1) + '/' + $(this).html() + '/' + cal.year;
                     $(this).parent().parent().parent().parent().prev().val(val).change();
                 });
+            });
+
+        $('.recurringDateInput-date > div[rel="date"]').hover(function() {
+            $('.recurringDateInput-calendar').show();
+            },function() {
+            $('.recurringDateInput-calendar').remove();
             });
 
         $('.recurringDateInput-date > div[rel="date"] > input').add('.recurringDateInput-until-date').change(function() {
@@ -193,8 +235,7 @@ $(function(){
             }
             });
 
-        $('button[rel="test"]').click(function(event) {
-                event.preventDefault();
+        $('input[type="submit"]').click(function() {
                 var start_date = $('.recurringDateInput-date > div > input[rel="start_date"]').val();
                 var start_time = $('.recurringDateInput-date > div > input[rel="start_time"]').val();
                 var end_date = $('.recurringDateInput-date > div > input[rel="end_date"]').val();
